@@ -4,6 +4,7 @@ import cc.openhome.forgemod.command.BuildCommand;
 import cc.openhome.forgemod.command.DestroyCommand;
 import cc.openhome.forgemod.command.DestroyDownCommand;
 import cc.openhome.forgemod.command.EmptyCommand;
+import cc.openhome.forgemod.command.EmptyDownCommand;
 import cc.openhome.forgemod.command.PyramidCommand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -28,6 +29,7 @@ public class Main {
 		event.registerServerCommand(new DestroyCommand());
 		
 		event.registerServerCommand(new DestroyDownCommand());
+		event.registerServerCommand(new EmptyDownCommand());
 		
 		event.registerServerCommand(new PyramidCommand());
 	}
