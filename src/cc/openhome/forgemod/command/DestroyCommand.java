@@ -1,5 +1,7 @@
 package cc.openhome.forgemod.command;
 
+import static cc.openhome.forgemod.FstPerspective.Vertical.UP;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class DestroyCommand extends CubeCommand {
 		
 		Blocker.cubeWith(
 			player.getAdjustedHorizontalFacing(),
-			player.getPosition(),
+			perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0),
 			pos -> player.getEntityWorld().destroyBlock(pos, true), 
 			perspective
 	    );

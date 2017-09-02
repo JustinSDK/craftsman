@@ -17,6 +17,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import static cc.openhome.forgemod.FstPerspective.Vertical.*;
 
 public class BuildCommand extends CubeCommand {
 	@Override
@@ -36,7 +37,7 @@ public class BuildCommand extends CubeCommand {
 		
 		Blocker.cubeWith(
 			player.getAdjustedHorizontalFacing(),
-			player.getPosition(),
+			perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0),
 			pos -> {
 				player.getEntityWorld().setBlockState(
 						pos, 

@@ -7,11 +7,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class FstPerspective {
+	public static enum Vertical {UP, DOWN}
+	
+	public final Vertical vt;
 	public final int rows;
 	public final int columns;
 	public final int layers;
 	
-	public FstPerspective(int rows, int columns, int layers) {
+	
+	public FstPerspective(Vertical vt, int rows, int columns, int layers) {
+		this.vt = vt;
 		this.rows = rows;
 		this.columns = columns;
 		this.layers = layers;

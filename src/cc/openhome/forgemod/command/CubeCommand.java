@@ -12,11 +12,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import static cc.openhome.forgemod.FstPerspective.Vertical.*;
 
 public abstract class CubeCommand implements ICommand {
 	@Override
 	public String getUsage(ICommandSender sender) {
-		return String.format("/%s <rows> <columns> <layers>", getName());
+		return String.format("/%s <up|down> <rows> <columns> <layers>", getName());
 	}
 
 	@Override
@@ -26,15 +27,16 @@ public abstract class CubeCommand implements ICommand {
 	
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {	
-		if(args.length != 3) {
+		if(args.length != 4) {
 			Messenger.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
 			return;
 		}
 		
 		FstPerspective perspective = new FstPerspective(
-			Integer.parseInt(args[0]),
-		    Integer.parseInt(args[1]),
-		    Integer.parseInt(args[2])
+			args[0].equals("up") ? UP : DOWN,
+			Integer.parseInt(args[1]),
+		    Integer.parseInt(args[2]),
+		    Integer.parseInt(args[3])
         );
 		
 		doCommand(server, sender, perspective);
