@@ -23,7 +23,7 @@ public class Position {
 	private static Map<EnumFacing, Stepper> frontSteppers = new HashMap<>();
 	private static Map<EnumFacing, Stepper> rightSteppers = new HashMap<>();
 	
-	{
+	static {
 		frontSteppers.put(EnumFacing.EAST, new Stepper(1, 0));
 		frontSteppers.put(EnumFacing.WEST, new Stepper(-1, 0));
 		frontSteppers.put(EnumFacing.SOUTH, new Stepper(0, 1));

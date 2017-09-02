@@ -17,6 +17,11 @@ public class Main {
 	public static final String VERSION = "0.1";
 	
 	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		
+	}
+	
+	@EventHandler
 	public void init(FMLServerStartingEvent event) {
 		event.registerServerCommand(new EmptyCommand());
 		event.registerServerCommand(new BuildCommand());
