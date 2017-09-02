@@ -1,6 +1,7 @@
 package cc.openhome.forgemod;
 
 import cc.openhome.forgemod.command.BuildCommand;
+import cc.openhome.forgemod.command.BuildDownCommand;
 import cc.openhome.forgemod.command.DestroyCommand;
 import cc.openhome.forgemod.command.DestroyDownCommand;
 import cc.openhome.forgemod.command.EmptyCommand;
@@ -30,6 +31,7 @@ public class Main {
 		
 		event.registerServerCommand(new DestroyDownCommand());
 		event.registerServerCommand(new EmptyDownCommand());
+		event.registerServerCommand(new BuildDownCommand());
 		
 		event.registerServerCommand(new PyramidCommand());
 	}
