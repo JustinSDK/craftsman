@@ -7,32 +7,32 @@ import net.minecraft.util.math.BlockPos;
 public 	interface Blocker {
 	void setBlock(BlockPos pos);
 	
-	public static void buildCube(EnumFacing facing, BlockPos pos, Blocker blockBuilder, FstPerspective perspective) {
+	public static void buildCube(EnumFacing facing, BlockPos pos, Blocker blocker, FstPerspective perspective) {
 		for(int h = 0; h < perspective.layers; h++) {
 			buildRectangle(
 				facing, 
 				pos.add(0, h, 0), 
-				blockBuilder, 
+				blocker, 
 				perspective.rows, 
 				perspective.columns
 			);
 		}
 	}	
-	
-	public static void buildColumn(EnumFacing facing, BlockPos pos, Blocker blockBuilder, int length) {
-		for(int i = 0; i < length; i++) {
-			pos = Position.forward(facing, pos, 1);
-			blockBuilder.setBlock(pos);
-		}		
-	}
-	
-	public static void buildRectangle(EnumFacing facing, BlockPos pos, Blocker blockBuilder, int rows, int columns) {
+
+	public static void buildRectangle(EnumFacing facing, BlockPos pos, Blocker blocker, int rows, int columns) {
 		for(int column = 0; column < columns; column++) {
 			buildColumn(
 				facing, 
 				Position.right(facing, pos, column),
-				blockBuilder, rows
+				blocker, rows
 			);
+		}		
+	}
+	
+	public static void buildColumn(EnumFacing facing, BlockPos pos, Blocker blocker, int length) {
+		for(int i = 0; i < length; i++) {
+			pos = Position.forward(facing, pos, 1);
+			blocker.setBlock(pos);
 		}		
 	}
 }
