@@ -7,11 +7,11 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
-public class DigCommand extends CubeCommand {
+public class DestroyDownCommand extends CubeCommand {
 
 	@Override
 	public String getName() {
-		return "dig";
+		return "destroy-down";
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class DigCommand extends CubeCommand {
 		
 		Blocker.cubeWith(
 			player.getAdjustedHorizontalFacing(),
-			player.getPosition().add(0, perspective.layers, 0),
+			player.getPosition().add(0, -perspective.layers, 0),
 			pos -> player.getEntityWorld().destroyBlock(pos, true), 
 			perspective
 	    );
