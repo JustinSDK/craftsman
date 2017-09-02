@@ -7,14 +7,11 @@ import net.minecraft.util.math.BlockPos;
 public 	interface Blocker {
 	void setBlock(BlockPos pos);
 	
-	public static void buildCube(EntityPlayer player, Blocker blockBuilder, FstPerspective perspective) {
-		EnumFacing facing = player.getAdjustedHorizontalFacing();
-		BlockPos playerPos = player.getPosition();
-		
+	public static void buildCube(EnumFacing facing, BlockPos pos, Blocker blockBuilder, FstPerspective perspective) {
 		for(int h = 0; h < perspective.layers; h++) {
 			buildRectangle(
 				facing, 
-				playerPos.add(0, h, 0), 
+				pos.add(0, h, 0), 
 				blockBuilder, 
 				perspective.rows, 
 				perspective.columns

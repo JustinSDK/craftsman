@@ -28,7 +28,8 @@ public class EmptyCommand extends CubeCommand {
 		EntityPlayer player = (EntityPlayer) sender;
 		
 		Blocker.buildCube(
-			player, 
+			player.getAdjustedHorizontalFacing(),
+			player.getPosition(),
 			pos -> player.getEntityWorld().setBlockToAir(pos), 
 			perspective
 	    );

@@ -28,7 +28,8 @@ public class DestroyCommand extends CubeCommand {
 		EntityPlayer player = (EntityPlayer) sender;
 		
 		Blocker.buildCube(
-			player, 
+			player.getAdjustedHorizontalFacing(),
+			player.getPosition(),
 			pos -> player.getEntityWorld().destroyBlock(pos, true), 
 			cube
 	    );

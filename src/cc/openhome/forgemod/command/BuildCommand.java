@@ -35,7 +35,8 @@ public class BuildCommand extends CubeCommand {
 		}
 		
 		Blocker.buildCube(
-			player, 
+			player.getAdjustedHorizontalFacing(),
+			player.getPosition(),
 			pos -> {
 				player.getEntityWorld().setBlockState(
 						pos, 
