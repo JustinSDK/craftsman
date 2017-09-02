@@ -26,11 +26,11 @@ public class Main {
 	@EventHandler
 	public void init(FMLServerStartingEvent event) {
 		event.registerServerCommand(new EmptyCommand());
-		event.registerServerCommand(new BuildCommand());
 		event.registerServerCommand(new DestroyCommand());
+		event.registerServerCommand(new BuildCommand());
 		
-		event.registerServerCommand(new DestroyDownCommand());
 		event.registerServerCommand(new EmptyDownCommand());
+		event.registerServerCommand(new DestroyDownCommand());		
 		event.registerServerCommand(new BuildDownCommand());
 		
 		event.registerServerCommand(new PyramidCommand());

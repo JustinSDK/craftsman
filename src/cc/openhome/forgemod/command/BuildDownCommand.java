@@ -16,7 +16,7 @@ public class BuildDownCommand extends CubeCommand {
 
 	@Override
 	public String getName() {
-		return "empty-down";
+		return "build-down";
 	}
 
 	@Override
