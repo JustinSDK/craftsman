@@ -24,14 +24,14 @@ public class DestroyCommand extends CubeCommand {
 	}
 
 	@Override
-	public void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective cube) throws CommandException {
+	public void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective) throws CommandException {
 		EntityPlayer player = (EntityPlayer) sender;
 		
 		Blocker.cubeWith(
 			player.getAdjustedHorizontalFacing(),
 			player.getPosition(),
 			pos -> player.getEntityWorld().destroyBlock(pos, true), 
-			cube
+			perspective
 	    );
 	}
 }
