@@ -16,7 +16,7 @@ import net.minecraft.util.text.TextComponentString;
 public abstract class CubeCommand implements ICommand {
 	@Override
 	public String getUsage(ICommandSender sender) {
-		return String.format("/%s <rows> <columns> <height>", getName());
+		return String.format("/%s <rows> <columns> <layers>", getName());
 	}
 
 	@Override

@@ -9,12 +9,12 @@ import net.minecraft.util.math.BlockPos;
 public class FstPerspective {
 	public final int rows;
 	public final int columns;
-	public final int height;
+	public final int layers;
 	
-	public FstPerspective(int rows, int columns, int height) {
+	public FstPerspective(int rows, int columns, int layers) {
 		this.rows = rows;
 		this.columns = columns;
-		this.height = height;
+		this.layers = layers;
 	}
 	
 	@Override
@@ -22,7 +22,7 @@ public class FstPerspective {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + columns;
-		result = prime * result + height;
+		result = prime * result + layers;
 		result = prime * result + rows;
 		return result;
 	}
@@ -37,7 +37,7 @@ public class FstPerspective {
 		FstPerspective other = (FstPerspective) obj;
 		if (columns != other.columns)
 			return false;
-		if (height != other.height)
+		if (layers != other.layers)
 			return false;
 		if (rows != other.rows)
 			return false;

@@ -11,7 +11,7 @@ public 	interface Blocker {
 		EnumFacing facing = player.getAdjustedHorizontalFacing();
 		BlockPos playerPos = player.getPosition();
 		
-		for(int h = 0; h < perspective.height; h++) {
+		for(int h = 0; h < perspective.layers; h++) {
 			buildRectangle(
 				facing, 
 				playerPos.add(0, h, 0), 
