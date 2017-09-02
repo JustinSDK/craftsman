@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.openhome.forgemod.Blocker;
 import cc.openhome.forgemod.FstPerspective;
+import cc.openhome.forgemod.Messenger;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -29,11 +30,7 @@ public class BuildCommand extends CubeCommand {
 		
 		Item heldItem = player.getHeldItemMainhand().getItem();
 		if(heldItem.equals(Items.AIR) || !(heldItem instanceof ItemBlock)) {
-			player.sendMessage(
-					new TextComponentString(
-							"把想用的建材拿在手上"
-					)
-			);
+			Messenger.sendMessageTo(player, "Select a block");
 			return;
 		}
 		
