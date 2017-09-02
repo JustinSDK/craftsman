@@ -2,6 +2,7 @@ package cc.openhome.forgemod;
 
 import cc.openhome.forgemod.command.BuildCommand;
 import cc.openhome.forgemod.command.DestroyCommand;
+import cc.openhome.forgemod.command.DigCommand;
 import cc.openhome.forgemod.command.EmptyCommand;
 import cc.openhome.forgemod.command.PyramidCommand;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,6 +21,8 @@ public class Main {
 		event.registerServerCommand(new EmptyCommand());
 		event.registerServerCommand(new BuildCommand());
 		event.registerServerCommand(new DestroyCommand());
+		
+		event.registerServerCommand(new DigCommand());
 		
 		event.registerServerCommand(new PyramidCommand());
 	}
