@@ -27,7 +27,7 @@ public class EmptyCommand extends CubeCommand {
 	public void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective) throws CommandException {
 		EntityPlayer player = (EntityPlayer) sender;
 		
-		Blocker.buildCube(
+		Blocker.cubeWith(
 			player.getAdjustedHorizontalFacing(),
 			player.getPosition(),
 			pos -> player.getEntityWorld().setBlockToAir(pos), 

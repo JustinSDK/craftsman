@@ -81,7 +81,7 @@ public class PyramidCommand implements ICommand {
 				break;
 			}
 			
-			Blocker.buildRectangle(
+			Blocker.rectangleWith(
 				facing, 
 				new Position(facing, playerPos).forward(h).right(h).up(h).getBlockPos(),
 				pos -> {

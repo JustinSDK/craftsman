@@ -34,7 +34,7 @@ public class BuildCommand extends CubeCommand {
 			return;
 		}
 		
-		Blocker.buildCube(
+		Blocker.cubeWith(
 			player.getAdjustedHorizontalFacing(),
 			player.getPosition(),
 			pos -> {
