@@ -1,11 +1,11 @@
 package cc.openhome.forgemod;
 
-import cc.openhome.forgemod.command.BuildCommand;
-
-import cc.openhome.forgemod.command.DestroyCommand;
-import cc.openhome.forgemod.command.EmptyCommand;
-import cc.openhome.forgemod.command.PyramidCommand;
-import cc.openhome.forgemod.command.TurtleCommand;
+import cc.openhome.forgemod.command.Build;
+import cc.openhome.forgemod.command.Destroy;
+import cc.openhome.forgemod.command.Empty;
+import cc.openhome.forgemod.command.building.Pyramid;
+import drawing.Cube;
+import drawing.Turtle;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -25,12 +25,15 @@ public class Main {
 
     @EventHandler
     public void init(FMLServerStartingEvent event) {
-        event.registerServerCommand(new EmptyCommand());
-        event.registerServerCommand(new DestroyCommand());
-        event.registerServerCommand(new BuildCommand());
+        event.registerServerCommand(new Empty());
+        event.registerServerCommand(new Destroy());
+        event.registerServerCommand(new Build());
 
-        event.registerServerCommand(new PyramidCommand());
+        event.registerServerCommand(new Pyramid());
 
-        event.registerServerCommand(new TurtleCommand());
+        event.registerServerCommand(new Turtle());
+        
+        event.registerServerCommand(new Cube());
+        
     }
 }

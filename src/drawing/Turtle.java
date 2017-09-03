@@ -1,10 +1,10 @@
-package cc.openhome.forgemod.command;
+package drawing;
 
 import java.util.Arrays;
 
 import java.util.List;
 
-import cc.openhome.forgemod.Messenger;
+import cc.openhome.forgemod.Commons;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
@@ -20,7 +20,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
-public class TurtleCommand implements ICommand {
+public class Turtle implements ICommand {
     private class TurtleHandler {
         @SubscribeEvent
         public void track(PlayerTickEvent event) {
@@ -69,7 +69,7 @@ public class TurtleCommand implements ICommand {
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length != 1) {
-            Messenger.sendMessageTo((EntityPlayer) sender, getUsage(sender));
+            Commons.sendMessageTo((EntityPlayer) sender, getUsage(sender));
         }
 
         if ("on".equals(args[0])) {

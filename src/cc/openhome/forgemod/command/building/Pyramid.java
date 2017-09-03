@@ -1,4 +1,4 @@
-package cc.openhome.forgemod.command;
+package cc.openhome.forgemod.command.building;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,10 +18,10 @@ import net.minecraft.util.text.TextComponentString;
 
 import cc.openhome.forgemod.Blocker;
 import cc.openhome.forgemod.FstPerspective;
-import cc.openhome.forgemod.Messenger;
+import cc.openhome.forgemod.Commons;
 import cc.openhome.forgemod.Position;
 
-public class PyramidCommand implements ICommand {
+public class Pyramid implements ICommand {
     @Override
     public int compareTo(ICommand o) {
         return 0;
@@ -50,24 +50,19 @@ public class PyramidCommand implements ICommand {
             player.sendMessage(new TextComponentString(getUsage(sender)));
             return;
         }
+        
+        Commons.runIfBlockHeld(sender, () -> {
+            BlockPos playerPos = player.getPosition();
 
-        Item heldItem = player.getHeldItemMainhand().getItem();
-        if (heldItem.equals(Items.AIR) || !(heldItem instanceof ItemBlock)) {
-            Messenger.sendMessageTo(player, "Select a block");
-            return;
-        }
+            int width = Integer.parseInt(args[0]);
+            int height = Integer.parseInt(args[1]);
 
-        BlockPos playerPos = player.getPosition();
-
-        int width = Integer.parseInt(args[0]);
-        int height = Integer.parseInt(args[1]);
-
-        buildPyramid(player, width, height);
+            buildPyramid(player, width, height); 
+        });
     }
 
     private void buildPyramid(EntityPlayer player, int width, int height) {
         EnumFacing facing = player.getAdjustedHorizontalFacing();
-
         BlockPos playerPos = player.getPosition();
         Item heldItem = player.getHeldItemMainhand().getItem();
 

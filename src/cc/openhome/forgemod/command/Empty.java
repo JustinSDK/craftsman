@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 import java.util.Arrays;
 
-public class EmptyCommand extends CubeCommand {
+public class Empty extends RCLbasedCommand {
     @Override
     public String getName() {
         return "empty";
