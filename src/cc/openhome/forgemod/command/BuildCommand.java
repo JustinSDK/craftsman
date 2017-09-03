@@ -41,7 +41,7 @@ public class BuildCommand extends CubeCommand {
 			pos -> {
 				player.getEntityWorld().setBlockState(
 						pos, 
-						Block.getBlockById(Item.getIdFromItem(heldItem)).getBlockState().getBaseState()
+						Block.getBlockFromItem(heldItem).getBlockState().getBaseState()
 				);
 			},
 			perspective

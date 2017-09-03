@@ -87,7 +87,7 @@ public class PyramidCommand implements ICommand {
 				pos -> {
 					player.getEntityWorld().setBlockState(
 							pos, 
-							Block.getBlockById(Item.getIdFromItem(heldItem)).getBlockState().getBaseState()
+							Block.getBlockFromItem(heldItem).getBlockState().getBaseState()
 					);
 				}, 
 				w, w
