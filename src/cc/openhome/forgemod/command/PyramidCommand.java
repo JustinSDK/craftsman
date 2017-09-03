@@ -78,10 +78,14 @@ public class PyramidCommand implements ICommand {
                 break;
             }
 
-            Blocker.rectangleWith(facing, new Position(facing, playerPos).forward(h).right(h).up(h).getBlockPos(),
-                    pos -> {
-                        player.getEntityWorld().setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
-                    }, w, w);
+            Blocker.rectangleWith(
+                facing, 
+                new Position(facing, playerPos).forward(h + 1).right(h).up(h).getBlockPos(),
+                pos -> {
+                    player.getEntityWorld().setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
+                }, 
+                w, w
+            );
         }
     }
 

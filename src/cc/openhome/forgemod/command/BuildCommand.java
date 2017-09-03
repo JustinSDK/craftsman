@@ -6,6 +6,7 @@ import java.util.List;
 import cc.openhome.forgemod.Blocker;
 import cc.openhome.forgemod.FstPerspective;
 import cc.openhome.forgemod.Messenger;
+import cc.openhome.forgemod.Position;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -37,12 +38,13 @@ public class BuildCommand extends CubeCommand {
             return;
         }
 
-        Blocker.cubeWith(player.getAdjustedHorizontalFacing(), basePos(perspective, player), pos -> {
-            player.getEntityWorld().setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
-        }, perspective);
-    }
-
-    private BlockPos basePos(FstPerspective perspective, EntityPlayer player) {
-        return perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0);
+        Blocker.cubeWith(
+            player.getAdjustedHorizontalFacing(), 
+            origin(perspective, player), 
+            pos -> {
+                player.getEntityWorld().setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
+            }, 
+            perspective
+        );
     }
 }

@@ -30,11 +30,11 @@ public class EmptyCommand extends CubeCommand {
             throws CommandException {
         EntityPlayer player = (EntityPlayer) sender;
 
-        Blocker.cubeWith(player.getAdjustedHorizontalFacing(), basePos(perspective, player),
-                pos -> player.getEntityWorld().setBlockToAir(pos), perspective);
-    }
-
-    private BlockPos basePos(FstPerspective perspective, EntityPlayer player) {
-        return perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0);
+        Blocker.cubeWith(
+            player.getAdjustedHorizontalFacing(), 
+            origin(perspective, player),
+            pos -> player.getEntityWorld().setBlockToAir(pos), 
+            perspective
+        );
     }
 }

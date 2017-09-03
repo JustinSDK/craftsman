@@ -5,6 +5,7 @@ import java.util.List;
 
 import cc.openhome.forgemod.FstPerspective;
 import cc.openhome.forgemod.Messenger;
+import cc.openhome.forgemod.Position;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -38,6 +39,11 @@ public abstract class CubeCommand implements ICommand {
         doCommand(server, sender, perspective);
     }
 
+    protected BlockPos origin(FstPerspective perspective, EntityPlayer player) {
+        BlockPos origin = Position.forward(player.getAdjustedHorizontalFacing(), player.getPosition(), 1);
+        return perspective.vt == UP ? origin : origin.add(0, -perspective.layers, 0);
+    }    
+    
     public abstract void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective)
             throws CommandException;
 
