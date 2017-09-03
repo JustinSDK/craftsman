@@ -37,7 +37,7 @@ public class BuildCommand extends CubeCommand {
 		
 		Blocker.cubeWith(
 			player.getAdjustedHorizontalFacing(),
-			perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0),
+			basePos(perspective, player),
 			pos -> {
 				player.getEntityWorld().setBlockState(
 						pos, 
@@ -46,5 +46,9 @@ public class BuildCommand extends CubeCommand {
 			},
 			perspective
 	    );		
+	}
+
+	private BlockPos basePos(FstPerspective perspective, EntityPlayer player) {
+		return perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0);
 	}
 }
