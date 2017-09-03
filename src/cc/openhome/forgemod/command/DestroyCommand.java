@@ -20,24 +20,21 @@ import net.minecraft.world.World;
 import java.util.Arrays;
 
 public class DestroyCommand extends CubeCommand {
-	@Override
-	public String getName() {
-		return "destroy";
-	}
+    @Override
+    public String getName() {
+        return "destroy";
+    }
 
-	@Override
-	public void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective) throws CommandException {
-		EntityPlayer player = (EntityPlayer) sender;
-		
-		Blocker.cubeWith(
-			player.getAdjustedHorizontalFacing(),
-			basePos(perspective, player),
-			pos -> player.getEntityWorld().destroyBlock(pos, true), 
-			perspective
-	    );
-	}
+    @Override
+    public void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective)
+            throws CommandException {
+        EntityPlayer player = (EntityPlayer) sender;
 
-	private BlockPos basePos(FstPerspective perspective, EntityPlayer player) {
-		return perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0);
-	}
+        Blocker.cubeWith(player.getAdjustedHorizontalFacing(), basePos(perspective, player),
+                pos -> player.getEntityWorld().destroyBlock(pos, true), perspective);
+    }
+
+    private BlockPos basePos(FstPerspective perspective, EntityPlayer player) {
+        return perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0);
+    }
 }

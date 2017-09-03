@@ -21,35 +21,28 @@ import net.minecraft.util.text.TextComponentString;
 import static cc.openhome.forgemod.FstPerspective.Vertical.*;
 
 public class BuildCommand extends CubeCommand {
-	@Override
-	public String getName() {
-		return "build";
-	}
-	
-	@Override
-	public void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective) throws CommandException {
-		EntityPlayer player = (EntityPlayer) sender;
-		
-		Item heldItem = player.getHeldItemMainhand().getItem();
-		if(heldItem.equals(Items.AIR) || !(heldItem instanceof ItemBlock)) {
-			Messenger.sendMessageTo(player, "Select a block");
-			return;
-		}
-		
-		Blocker.cubeWith(
-			player.getAdjustedHorizontalFacing(),
-			basePos(perspective, player),
-			pos -> {
-				player.getEntityWorld().setBlockState(
-						pos, 
-						Block.getBlockFromItem(heldItem).getDefaultState()
-				);
-			},
-			perspective
-	    );		
-	}
+    @Override
+    public String getName() {
+        return "build";
+    }
 
-	private BlockPos basePos(FstPerspective perspective, EntityPlayer player) {
-		return perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0);
-	}
+    @Override
+    public void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective)
+            throws CommandException {
+        EntityPlayer player = (EntityPlayer) sender;
+
+        Item heldItem = player.getHeldItemMainhand().getItem();
+        if (heldItem.equals(Items.AIR) || !(heldItem instanceof ItemBlock)) {
+            Messenger.sendMessageTo(player, "Select a block");
+            return;
+        }
+
+        Blocker.cubeWith(player.getAdjustedHorizontalFacing(), basePos(perspective, player), pos -> {
+            player.getEntityWorld().setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
+        }, perspective);
+    }
+
+    private BlockPos basePos(FstPerspective perspective, EntityPlayer player) {
+        return perspective.vt == UP ? player.getPosition() : player.getPosition().add(0, -perspective.layers, 0);
+    }
 }

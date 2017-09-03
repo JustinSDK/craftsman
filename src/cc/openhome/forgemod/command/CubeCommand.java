@@ -15,53 +15,50 @@ import net.minecraft.util.text.TextComponentString;
 import static cc.openhome.forgemod.FstPerspective.Vertical.*;
 
 public abstract class CubeCommand implements ICommand {
-	@Override
-	public String getUsage(ICommandSender sender) {
-		return String.format("/%s <up|down> <rows> <columns> <layers>", getName());
-	}
+    @Override
+    public String getUsage(ICommandSender sender) {
+        return String.format("/%s <up|down> <rows> <columns> <layers>", getName());
+    }
 
-	@Override
-	public List<String> getAliases() {
-		return Arrays.asList(getName());
-	}
-	
-	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {	
-		if(args.length != 4) {
-			Messenger.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
-			return;
-		}
-		
-		FstPerspective perspective = new FstPerspective(
-			args[0].equals("up") ? UP : DOWN,
-			Integer.parseInt(args[1]),
-		    Integer.parseInt(args[2]),
-		    Integer.parseInt(args[3])
-        );
-		
-		doCommand(server, sender, perspective);
-	} 
-	
-	public abstract void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective) throws CommandException;
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList(getName());
+    }
 
-	@Override
-	public int compareTo(ICommand o) {
-		return 0;
-	}	
-	
-	@Override
-	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-		return true;
-	}
+    @Override
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+        if (args.length != 4) {
+            Messenger.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
+            return;
+        }
 
-	@Override
-	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
-			BlockPos targetPos) {
-		return null;
-	}
+        FstPerspective perspective = new FstPerspective(args[0].equals("up") ? UP : DOWN, Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]), Integer.parseInt(args[3]));
 
-	@Override
-	public boolean isUsernameIndex(String[] args, int index) {
-		return false;
-	}	
+        doCommand(server, sender, perspective);
+    }
+
+    public abstract void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective)
+            throws CommandException;
+
+    @Override
+    public int compareTo(ICommand o) {
+        return 0;
+    }
+
+    @Override
+    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
+        return true;
+    }
+
+    @Override
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
+            BlockPos targetPos) {
+        return null;
+    }
+
+    @Override
+    public boolean isUsernameIndex(String[] args, int index) {
+        return false;
+    }
 }
