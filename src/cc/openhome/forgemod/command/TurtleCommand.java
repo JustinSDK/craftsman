@@ -1,10 +1,10 @@
 package cc.openhome.forgemod.command;
 
+
 import java.util.Arrays;
 import java.util.List;
 
 import cc.openhome.forgemod.Messenger;
-import cc.openhome.forgemod.Test;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
@@ -21,13 +21,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class TurtleCommand implements ICommand {
-	 private class TrackHandler {
+	 private class TurtleHandler {
 	    @SubscribeEvent
 	    public void track(PlayerTickEvent event) {
 			EntityPlayer player = event.player;
 			
 			IBlockState heldBlockState = Block.getBlockFromItem(
-											player.getHeldItemMainhand().getItem()
+										    player.getHeldItemMainhand().getItem()
 										 ).getDefaultState();
 			
 			BlockPos basePos = player.getPosition().add(0, -1, 0);
@@ -41,7 +41,7 @@ public class TurtleCommand implements ICommand {
 	    } 
 	}
 	 
-	private TrackHandler trackHandler = new TrackHandler();
+	private TurtleHandler trutle = new TurtleHandler();
 
 	@Override
 	public int compareTo(ICommand o) {
@@ -70,9 +70,9 @@ public class TurtleCommand implements ICommand {
 		}
 		
 		if("on".equals(args[0])) {
-			MinecraftForge.EVENT_BUS.register(trackHandler);
+			MinecraftForge.EVENT_BUS.register(trutle);
 		} else {
-			MinecraftForge.EVENT_BUS.unregister(trackHandler);
+			MinecraftForge.EVENT_BUS.unregister(trutle);
 		}
 	}
 
