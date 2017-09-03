@@ -25,9 +25,13 @@ public class TurtleCommand implements ICommand {
         @SubscribeEvent
         public void track(PlayerTickEvent event) {
             EntityPlayer player = event.player;
-
-            IBlockState heldBlockState = Block.getBlockFromItem(player.getHeldItemMainhand().getItem())
-                    .getDefaultState();
+            
+            Item heldItem = player.getHeldItemMainhand().getItem();
+            if (heldItem.equals(Items.AIR) || !(heldItem instanceof ItemBlock)) {
+                return;
+            }            
+            
+            IBlockState heldBlockState = Block.getBlockFromItem(heldItem).getDefaultState();
 
             BlockPos basePos = player.getPosition().add(0, -1, 0);
             IBlockState baseState = player.getEntityWorld().getBlockState(basePos);
