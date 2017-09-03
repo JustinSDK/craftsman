@@ -7,6 +7,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 public class Test {
     @SubscribeEvent
     public void test(PlayerTickEvent event) {
-    	System.out.println(event.player.getPosition());
+    	//System.out.println(event.player.getPosition());
     } 
 }

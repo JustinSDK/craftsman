@@ -5,6 +5,7 @@ import cc.openhome.forgemod.command.BuildCommand;
 import cc.openhome.forgemod.command.DestroyCommand;
 import cc.openhome.forgemod.command.EmptyCommand;
 import cc.openhome.forgemod.command.PyramidCommand;
+import cc.openhome.forgemod.command.TurtleCommand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -29,5 +30,7 @@ public class Main {
 		event.registerServerCommand(new BuildCommand());
 		
 		event.registerServerCommand(new PyramidCommand());
+		
+		event.registerServerCommand(new TurtleCommand());
 	}
 }

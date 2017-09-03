@@ -11,6 +11,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -41,7 +42,7 @@ public class BuildCommand extends CubeCommand {
 			pos -> {
 				player.getEntityWorld().setBlockState(
 						pos, 
-						Block.getBlockFromItem(heldItem).getBlockState().getBaseState()
+						Block.getBlockFromItem(heldItem).getDefaultState()
 				);
 			},
 			perspective
