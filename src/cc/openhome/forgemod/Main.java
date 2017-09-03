@@ -6,6 +6,7 @@ import cc.openhome.forgemod.command.DestroyCommand;
 import cc.openhome.forgemod.command.EmptyCommand;
 import cc.openhome.forgemod.command.PyramidCommand;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -18,7 +19,7 @@ public class Main {
 	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		
+		MinecraftForge.EVENT_BUS.register(new Test());
 	}
 	
 	@EventHandler
