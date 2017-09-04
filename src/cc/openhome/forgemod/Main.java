@@ -4,8 +4,9 @@ import cc.openhome.forgemod.command.Build;
 import cc.openhome.forgemod.command.Destroy;
 import cc.openhome.forgemod.command.Empty;
 import cc.openhome.forgemod.command.building.Pyramid;
-import drawing.Cube;
-import drawing.Turtle;
+import cc.openhome.forgemod.command.drawing.Cube;
+import cc.openhome.forgemod.command.drawing.Frame;
+import cc.openhome.forgemod.command.drawing.Turtle;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -34,6 +35,6 @@ public class Main {
         event.registerServerCommand(new Turtle());
         
         event.registerServerCommand(new Cube());
-        
+        event.registerServerCommand(new Frame());
     }
 }

@@ -1,4 +1,4 @@
-package drawing;
+package cc.openhome.forgemod.command.drawing;
 
 import static cc.openhome.forgemod.FstPerspective.Vertical.DOWN;
 import static cc.openhome.forgemod.FstPerspective.Vertical.UP;
@@ -38,6 +38,10 @@ public class Cube implements DefaultCommand {
             return;
         }
         
+        doCommand(sender, args);
+    }
+
+    public void doCommand(ICommandSender sender, String[] args) {
         EntityPlayer player = (EntityPlayer) sender;
         Item heldItem = player.getHeldItemMainhand().getItem();
 

@@ -1,4 +1,4 @@
-package drawing;
+package cc.openhome.forgemod.command.drawing;
 
 import java.util.Arrays;
 
