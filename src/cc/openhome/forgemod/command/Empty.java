@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cc.openhome.forgemod.Blocker;
+import cc.openhome.forgemod.Commons;
 import cc.openhome.forgemod.FstPerspective;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -19,7 +20,7 @@ import net.minecraft.world.World;
 
 import java.util.Arrays;
 
-public class Empty extends RCLbasedCommand {
+public class Empty implements RCLbasedCommand {
     @Override
     public String getName() {
         return "empty";
@@ -32,7 +33,7 @@ public class Empty extends RCLbasedCommand {
 
         Blocker.cubeWith(
             player.getAdjustedHorizontalFacing(), 
-            origin(perspective, player),
+            Commons.origin(perspective, player),
             pos -> player.getEntityWorld().setBlockToAir(pos), 
             perspective
         );

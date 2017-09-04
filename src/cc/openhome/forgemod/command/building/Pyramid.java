@@ -20,13 +20,9 @@ import cc.openhome.forgemod.Blocker;
 import cc.openhome.forgemod.FstPerspective;
 import cc.openhome.forgemod.Commons;
 import cc.openhome.forgemod.Position;
+import cc.openhome.forgemod.command.DefaultCommand;
 
-public class Pyramid implements ICommand {
-    @Override
-    public int compareTo(ICommand o) {
-        return 0;
-    }
-
+public class Pyramid implements DefaultCommand {
     @Override
     public String getName() {
         return "pyramid";
@@ -35,11 +31,6 @@ public class Pyramid implements ICommand {
     @Override
     public String getUsage(ICommandSender sender) {
         return String.format("/%s <width> <height>", getName());
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return Arrays.asList(getName());
     }
 
     @Override
@@ -83,21 +74,4 @@ public class Pyramid implements ICommand {
             );
         }
     }
-
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
-    }
-
-    @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
-            BlockPos targetPos) {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
-
 }

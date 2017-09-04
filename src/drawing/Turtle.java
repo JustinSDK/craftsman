@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cc.openhome.forgemod.Commons;
+import cc.openhome.forgemod.command.DefaultCommand;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
@@ -20,7 +21,17 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
-public class Turtle implements ICommand {
+public class Turtle implements DefaultCommand {
+    @Override
+    public String getName() {
+        return "turtle";
+    }
+
+    @Override
+    public String getUsage(ICommandSender sender) {
+        return String.format("/%s <on|off>", getName());
+    }
+
     private class TurtleHandler {
         @SubscribeEvent
         public void track(PlayerTickEvent event) {
@@ -47,26 +58,6 @@ public class Turtle implements ICommand {
     private TurtleHandler trutle = new TurtleHandler();
 
     @Override
-    public int compareTo(ICommand o) {
-        return 0;
-    }
-
-    @Override
-    public String getName() {
-        return "turtle";
-    }
-
-    @Override
-    public String getUsage(ICommandSender sender) {
-        return String.format("/%s <on|off>", getName());
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return Arrays.asList(getName());
-    }
-
-    @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length != 1) {
             Commons.sendMessageTo((EntityPlayer) sender, getUsage(sender));
@@ -78,21 +69,4 @@ public class Turtle implements ICommand {
             MinecraftForge.EVENT_BUS.unregister(trutle);
         }
     }
-
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
-    }
-
-    @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
-            BlockPos targetPos) {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
-
 }

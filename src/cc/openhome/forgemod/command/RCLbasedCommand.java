@@ -15,19 +15,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import static cc.openhome.forgemod.FstPerspective.Vertical.*;
 
-public abstract class RCLbasedCommand implements ICommand {
+public interface RCLbasedCommand extends DefaultCommand {
     @Override
-    public String getUsage(ICommandSender sender) {
+    default String getUsage(ICommandSender sender) {
         return String.format("/%s <up|down> <rows> <columns> <layers>", getName());
     }
-
+    
     @Override
-    public List<String> getAliases() {
-        return Arrays.asList(getName());
-    }
-
-    @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+    default void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length != 4) {
             Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
             return;
@@ -42,33 +37,6 @@ public abstract class RCLbasedCommand implements ICommand {
 
         doCommand(server, sender, perspective);
     }
-
-    protected BlockPos origin(FstPerspective perspective, EntityPlayer player) {
-        BlockPos origin = Position.forward(player.getAdjustedHorizontalFacing(), player.getPosition(), 1);
-        return perspective.vt == UP ? origin : origin.add(0, -perspective.layers, 0);
-    }    
     
-    public abstract void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective)
-            throws CommandException;
-
-    @Override
-    public int compareTo(ICommand o) {
-        return 0;
-    }
-
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
-    }
-
-    @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
-            BlockPos targetPos) {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
+    void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective) throws CommandException;
 }

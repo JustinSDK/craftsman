@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import static cc.openhome.forgemod.FstPerspective.Vertical.*;
 
-public class Build extends RCLbasedCommand {
+public class Build implements RCLbasedCommand {
     @Override
     public String getName() {
         return "build";
@@ -36,7 +36,7 @@ public class Build extends RCLbasedCommand {
         Commons.runIfBlockHeld(sender, () -> {
             Blocker.cubeWith(
                     player.getAdjustedHorizontalFacing(), 
-                    origin(perspective, player), 
+                    Commons.origin(perspective, player), 
                     pos -> {
                         player.getEntityWorld().setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
                     }, 

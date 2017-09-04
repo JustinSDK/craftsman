@@ -10,6 +10,7 @@ import cc.openhome.forgemod.Blocker;
 import cc.openhome.forgemod.Commons;
 import cc.openhome.forgemod.FstPerspective;
 import cc.openhome.forgemod.Position;
+import cc.openhome.forgemod.command.DefaultCommand;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -19,13 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
-public class Cube implements ICommand {
-
-    @Override
-    public int compareTo(ICommand o) {
-        return 0;
-    }
-
+public class Cube implements DefaultCommand {
     @Override
     public String getName() {
         return "cube";
@@ -34,11 +29,6 @@ public class Cube implements ICommand {
     @Override
     public String getUsage(ICommandSender sender) {
         return String.format("/%s <ux1> <uy1> <uz1> <rows> <columns> <layers>", getName());
-    }
-
-    @Override
-    public List<String> getAliases() {
-        return Arrays.asList(getName());
     }
 
     @Override
@@ -77,22 +67,4 @@ public class Cube implements ICommand {
                 ); 
         });
     }
-
-
-    @Override
-    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
-            BlockPos targetPos) {
-        return null;
-    }
-
-    @Override
-    public boolean isUsernameIndex(String[] args, int index) {
-        return false;
-    }
-
-    @Override
-    public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
-        return true;
-    }
-
 }
