@@ -42,6 +42,14 @@ public class Cube implements DefaultCommand {
         Item heldItem = player.getHeldItemMainhand().getItem();
 
         // Player is always regarded as facing to EAST from 1st person perspective. 
+
+        BlockPos origin = Commons.origin(
+            player, 
+            Integer.parseInt(args[0]), 
+            Integer.parseInt(args[1]), 
+            Integer.parseInt(args[2])
+         );
+
         
         FstPerspective perspective = new FstPerspective(
                 UP, 
@@ -50,13 +58,6 @@ public class Cube implements DefaultCommand {
                 Integer.parseInt(args[5])
             );
         
-        BlockPos origin = Commons.origin(
-            perspective, 
-            player, 
-            Integer.parseInt(args[0]), 
-            Integer.parseInt(args[1]), 
-            Integer.parseInt(args[2])
-         );
         
         Commons.runIfBlockHeld(sender, () -> {
             Blocker.cubeWith(

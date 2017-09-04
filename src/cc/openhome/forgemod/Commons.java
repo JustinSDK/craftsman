@@ -36,7 +36,7 @@ public class Commons {
         return perspective.vt == UP ? origin : origin.add(0, -perspective.layers, 0);
     }        
     
-    public static BlockPos origin(FstPerspective perspective, EntityPlayer player, int ux, int uy, int uz) {
+    public static BlockPos origin(EntityPlayer player, int ux, int uy, int uz) {
         return new Position(player.getAdjustedHorizontalFacing(), player.getPosition())
                         .forward(1 + ux) 
                         .up(uy)           

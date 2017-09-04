@@ -1,6 +1,9 @@
 package drawing;
 
+import static cc.openhome.forgemod.FstPerspective.Vertical.UP;
+
 import cc.openhome.forgemod.Commons;
+import cc.openhome.forgemod.FstPerspective;
 import cc.openhome.forgemod.command.DefaultCommand;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -25,7 +28,15 @@ public class Frame implements DefaultCommand {
             Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
             return;
         }
+
+        // Player is always regarded as facing to EAST from 1st person perspective. 
         
+        FstPerspective perspective = new FstPerspective(
+                UP, 
+                Integer.parseInt(args[3]),
+                Integer.parseInt(args[4]), 
+                Integer.parseInt(args[5])
+            );
         
     }
 }
