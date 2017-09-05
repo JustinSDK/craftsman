@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cc.openhome.forgemod.Commons;
+import cc.openhome.forgemod.Position;
 import cc.openhome.forgemod.command.DefaultCommand;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -40,13 +41,18 @@ public class Turtle implements DefaultCommand {
             Item heldItem = player.getHeldItemMainhand().getItem();
             if (heldItem.equals(Items.AIR) || !(heldItem instanceof ItemBlock)) {
                 return;
-            }            
+            }    
+            
+            if(player.isSneaking()) {
+                BlockPos playerPos = 
+                        Position.forward(player.getAdjustedHorizontalFacing(), player.getPosition(), 1);            
+                player.setPosition(playerPos.getX(), playerPos.getY() - 0.5, playerPos.getZ());
+            } 
             
             IBlockState heldBlockState = Block.getBlockFromItem(heldItem).getDefaultState();
-
             BlockPos basePos = player.getPosition().add(0, -1, 0);
             IBlockState baseState = player.getEntityWorld().getBlockState(basePos);
-
+            
             if (heldBlockState.equals(baseState)) {
                 return;
             }
