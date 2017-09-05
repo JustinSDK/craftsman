@@ -46,7 +46,7 @@ public class Turtle implements DefaultCommand {
             if(player.isSneaking()) {
                 BlockPos playerPos = 
                         Position.forward(player.getAdjustedHorizontalFacing(), player.getPosition(), 1);            
-                player.setPosition(playerPos.getX(), playerPos.getY() - 0.5, playerPos.getZ());
+                player.setPosition(playerPos.getX(), playerPos.getY() - 0.25, playerPos.getZ());
             } 
             
             IBlockState heldBlockState = Block.getBlockFromItem(heldItem).getDefaultState();
