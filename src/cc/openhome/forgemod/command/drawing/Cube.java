@@ -28,7 +28,7 @@ public class Cube implements DefaultCommand {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return String.format("/%s <ux1> <uy1> <uz1> <rows> <columns> <layers>", getName());
+        return String.format("/%s <ux> <uy> <uz> <rows> <columns> <layers>", getName());
     }
 
     @Override

@@ -27,7 +27,7 @@ public class Frame implements DefaultCommand {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return String.format("/%s <ht|vt> <ux1> <uy1> <uz1> <rows> <columns> <thickness>", getName());
+        return String.format("/%s <ht|vt> <ux> <uy> <uz> <rows> <columns> <thickness>", getName());
     }
 
     @Override

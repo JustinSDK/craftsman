@@ -31,37 +31,29 @@ public class Pyramid implements DefaultCommand {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return String.format("/%s <width> <height>", getName());
+        return String.format("/%s <ux> <uy> <uz> <width> <height>", getName());
     }
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         EntityPlayer player = (EntityPlayer) sender;
 
-        if (args.length != 2) {
+        if (args.length != 5) {
             player.sendMessage(new TextComponentString(getUsage(sender)));
             return;
         }
         
-        int width = Integer.parseInt(args[0]);
-        int height = Integer.parseInt(args[1]);
+        int ux = Integer.parseInt(args[0]);
+        int uy = Integer.parseInt(args[1]);
+        int uz = Integer.parseInt(args[2]);
         
-        buildPyramid(player, width, height);
+        int width = Integer.parseInt(args[3]);
+        int height = Integer.parseInt(args[4]);
         
-        
-//        Commons.runIfBlockHeld(sender, () -> {
-//            BlockPos playerPos = player.getPosition();
-//
-//            int width = Integer.parseInt(args[0]);
-//            int height = Integer.parseInt(args[1]);
-//
-//            buildPyramid(player, width, height); 
-//        });
-        
-        
+        buildPyramid(player, ux, uy, uz, width, height);
     }
 
-    private void buildPyramid(EntityPlayer player, int width, int height) {
+    private void buildPyramid(EntityPlayer player, int ux, int uy, int uz, int width, int height) {
         EnumFacing facing = player.getAdjustedHorizontalFacing();
         BlockPos playerPos = player.getPosition();
         Item heldItem = player.getHeldItemMainhand().getItem();
@@ -75,11 +67,9 @@ public class Pyramid implements DefaultCommand {
                 break;
             }
             
-            //BlockPos origin = new Position(facing, playerPos).forward(h + 1).right(h).up(h).getBlockPos();
-            
             cube.doCommand(player, 
                     new String[] {
-                            String.valueOf(h), String.valueOf(h), String.valueOf(h),
+                            String.valueOf(ux + h), String.valueOf(uy + h), String.valueOf(uz + h),
                             String.valueOf(w), String.valueOf(w), "1"
                     }
             );
