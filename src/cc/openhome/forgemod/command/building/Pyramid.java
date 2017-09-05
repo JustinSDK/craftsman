@@ -21,6 +21,7 @@ import cc.openhome.forgemod.FstPerspective;
 import cc.openhome.forgemod.Commons;
 import cc.openhome.forgemod.Position;
 import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.drawing.Cube;
 
 public class Pyramid implements DefaultCommand {
     @Override
@@ -42,20 +43,30 @@ public class Pyramid implements DefaultCommand {
             return;
         }
         
-        Commons.runIfBlockHeld(sender, () -> {
-            BlockPos playerPos = player.getPosition();
-
-            int width = Integer.parseInt(args[0]);
-            int height = Integer.parseInt(args[1]);
-
-            buildPyramid(player, width, height); 
-        });
+        int width = Integer.parseInt(args[0]);
+        int height = Integer.parseInt(args[1]);
+        
+        buildPyramid(player, width, height);
+        
+        
+//        Commons.runIfBlockHeld(sender, () -> {
+//            BlockPos playerPos = player.getPosition();
+//
+//            int width = Integer.parseInt(args[0]);
+//            int height = Integer.parseInt(args[1]);
+//
+//            buildPyramid(player, width, height); 
+//        });
+        
+        
     }
 
     private void buildPyramid(EntityPlayer player, int width, int height) {
         EnumFacing facing = player.getAdjustedHorizontalFacing();
         BlockPos playerPos = player.getPosition();
         Item heldItem = player.getHeldItemMainhand().getItem();
+        
+        Cube cube = new Cube();
 
         for (int h = 0; h < height; h++) {
             int w = width - h * 2;
@@ -63,14 +74,14 @@ public class Pyramid implements DefaultCommand {
             if (w <= 0) {
                 break;
             }
-
-            Blocker.rectangleWith(
-                facing, 
-                new Position(facing, playerPos).forward(h + 1).right(h).up(h).getBlockPos(),
-                pos -> {
-                    player.getEntityWorld().setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
-                }, 
-                w, w
+            
+            //BlockPos origin = new Position(facing, playerPos).forward(h + 1).right(h).up(h).getBlockPos();
+            
+            cube.doCommand(player, 
+                    new String[] {
+                            String.valueOf(h), String.valueOf(h), String.valueOf(h),
+                            String.valueOf(w), String.valueOf(w), "1"
+                    }
             );
         }
     }
