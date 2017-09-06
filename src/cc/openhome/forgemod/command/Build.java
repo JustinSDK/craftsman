@@ -30,10 +30,12 @@ public class Build implements RCLbasedCommand {
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective)
             throws CommandException {
-        EntityPlayer player = (EntityPlayer) sender;
-        Item heldItem = player.getHeldItemMainhand().getItem();
+
         
         Commons.runIfBlockHeld(sender, () -> {
+            EntityPlayer player = (EntityPlayer) sender;
+            Item heldItem = player.getHeldItemMainhand().getItem();
+            
             Blocker.cubeWith(
                     player.getAdjustedHorizontalFacing(), 
                     Commons.origin(perspective, player), 
