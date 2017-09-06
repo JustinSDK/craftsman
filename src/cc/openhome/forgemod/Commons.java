@@ -4,8 +4,12 @@ import static cc.openhome.forgemod.FstPerspective.Vertical.UP;
 
 import java.util.function.Consumer;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -29,6 +33,20 @@ public class Commons {
         
         runnable.run();
     }
+    
+    public static void runIfStairsHeld(ICommandSender sender, Runnable runnable) {
+        EntityPlayer player = (EntityPlayer) sender;
+        
+        Item heldItem = player.getHeldItemMainhand().getItem();
+        Block heldBlock = Block.getBlockFromItem(heldItem);
+        
+        if (heldBlock.equals(Blocks.AIR) || !(heldBlock instanceof BlockStairs)) {
+            Commons.sendMessageTo(player, "Hold stairs");
+            return;
+        }        
+        
+        runnable.run();
+    }    
     
 
     public static BlockPos origin(FstPerspective perspective, EntityPlayer player) {

@@ -4,6 +4,7 @@ import cc.openhome.forgemod.command.Build;
 import cc.openhome.forgemod.command.Destroy;
 import cc.openhome.forgemod.command.Empty;
 import cc.openhome.forgemod.command.building.Pyramid;
+import cc.openhome.forgemod.command.building.Stairs;
 import cc.openhome.forgemod.command.drawing.Cube;
 import cc.openhome.forgemod.command.drawing.Frame;
 import cc.openhome.forgemod.command.drawing.Turtle;
@@ -31,6 +32,7 @@ public class Main {
         event.registerServerCommand(new Build());
 
         event.registerServerCommand(new Pyramid());
+        event.registerServerCommand(new Stairs());
 
         event.registerServerCommand(new Turtle());
         
