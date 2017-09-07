@@ -1,13 +1,13 @@
-package cc.openhome.forgemod.command;
+package cc.openhome.forgemod.command.basic;
 
-import static cc.openhome.forgemod.FstPerspective.Vertical.UP;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cc.openhome.forgemod.Blocker;
-import cc.openhome.forgemod.Commons;
-import cc.openhome.forgemod.FstPerspective;
+import cc.openhome.forgemod.command.Blocker;
+import cc.openhome.forgemod.command.Commons;
+import cc.openhome.forgemod.command.FstPerspective;
+import cc.openhome.forgemod.command.Position;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -20,10 +20,10 @@ import net.minecraft.world.World;
 
 import java.util.Arrays;
 
-public class Destroy implements RCLbasedCommand {
+public class Empty implements RCLbasedCommand {
     @Override
     public String getName() {
-        return "destroy";
+        return "empty";
     }
 
     @Override
@@ -31,12 +31,15 @@ public class Destroy implements RCLbasedCommand {
             throws CommandException {
         EntityPlayer player = (EntityPlayer) sender;
 
-        Blocker.cubeWith(
+        Position position = new Position(
             player.getAdjustedHorizontalFacing(), 
-            Commons.origin(perspective, player),
-            pos -> player.getEntityWorld().destroyBlock(pos, true), 
-            perspective
+            origin(player, perspective.vt, perspective.layers)
+        );
+    
+        Blocker.cubeWith(
+            position,
+            pos -> player.getEntityWorld().setBlockToAir(pos), 
+            perspective.rows, perspective.columns, perspective.layers
         );
     }
-
 }

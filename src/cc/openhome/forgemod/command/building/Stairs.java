@@ -1,9 +1,9 @@
 package cc.openhome.forgemod.command.building;
 
-import cc.openhome.forgemod.Blocker;
-import cc.openhome.forgemod.Commons;
-import cc.openhome.forgemod.Position;
+import cc.openhome.forgemod.command.Blocker;
+import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.Position;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.command.CommandException;
@@ -50,11 +50,13 @@ public class Stairs implements DefaultCommand {
             
             if("up".equals(args[0])) {
                 for(int w = 0; w < width; w++) {
-                    columnUp(player, height, Position.right(player.getAdjustedHorizontalFacing(), origin, w), heldBlock);
+                    BlockPos pos = Position.right(player.getAdjustedHorizontalFacing(), origin, w);
+                    columnUp(player, height, pos, heldBlock);
                 }
             } else {
                 for(int w = 0; w < width; w++) {
-                    columnDown(player, height, Position.right(player.getAdjustedHorizontalFacing(), origin, w), heldBlock);
+                    BlockPos pos = Position.right(player.getAdjustedHorizontalFacing(), origin, w);
+                    columnDown(player, height, pos, heldBlock);
                 }
             }
         });
@@ -92,7 +94,7 @@ public class Stairs implements DefaultCommand {
     private void columnDown(EntityPlayer player, int height, BlockPos origin, BlockStairs heldBlock) {
         for(int h = 0; h < height; h++) {
             BlockPos pos = new Position(player.getAdjustedHorizontalFacing(), origin)
-                                  .forward(h + 1).up(-h - 1).getBlockPos();
+                                  .forward(h).up(-h - 1).getBlockPos();
             player.getEntityWorld().setBlockState(
                     pos, 
                     heldBlock.getDefaultState().withRotation(fromFacingForDown(player))

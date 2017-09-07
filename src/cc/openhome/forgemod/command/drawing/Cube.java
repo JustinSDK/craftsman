@@ -1,16 +1,13 @@
 package cc.openhome.forgemod.command.drawing;
 
-import static cc.openhome.forgemod.FstPerspective.Vertical.DOWN;
-import static cc.openhome.forgemod.FstPerspective.Vertical.UP;
-
 import java.util.Arrays;
 import java.util.List;
 
-import cc.openhome.forgemod.Blocker;
-import cc.openhome.forgemod.Commons;
-import cc.openhome.forgemod.FstPerspective;
-import cc.openhome.forgemod.Position;
+import cc.openhome.forgemod.command.Blocker;
+import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.FstPerspective;
+import cc.openhome.forgemod.command.Position;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -18,6 +15,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class Cube implements DefaultCommand {
@@ -57,19 +55,24 @@ public class Cube implements DefaultCommand {
 
             
             FstPerspective perspective = new FstPerspective(
-                    UP, 
+                    EnumFacing.UP, 
                     Integer.parseInt(args[3]),
                     Integer.parseInt(args[4]), 
                     Integer.parseInt(args[5])
                 );
             
+            Position position = new Position(
+                player.getAdjustedHorizontalFacing(), 
+                origin                    
+            );
+            
             Blocker.cubeWith(
-                    player.getAdjustedHorizontalFacing(), 
-                    origin, 
+                    position, 
                     pos -> {
-                        player.getEntityWorld().setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
+                        player.getEntityWorld()
+                              .setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
                     }, 
-                    perspective
+                    perspective.rows, perspective.columns, perspective.layers
                 ); 
         });
     }

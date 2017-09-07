@@ -1,6 +1,4 @@
-package cc.openhome.forgemod;
-
-import static cc.openhome.forgemod.FstPerspective.Vertical.UP;
+package cc.openhome.forgemod.command;
 
 import java.util.function.Consumer;
 
@@ -49,10 +47,10 @@ public class Commons {
     }    
     
 
-    public static BlockPos origin(FstPerspective perspective, EntityPlayer player) {
-        BlockPos origin = Position.forward(player.getAdjustedHorizontalFacing(), player.getPosition(), 1);
-        return perspective.vt == UP ? origin : origin.add(0, -perspective.layers, 0);
-    }        
+//    public static BlockPos origin(FstPerspective perspective, EntityPlayer player) {
+//        BlockPos origin = Position.forward(player.getAdjustedHorizontalFacing(), player.getPosition(), 1);
+//        return perspective.vt == UP ? origin : origin.add(0, -perspective.layers, 0);
+//    }        
     
     public static BlockPos origin(EntityPlayer player, int ux, int uy, int uz) {
         return new Position(player.getAdjustedHorizontalFacing(), player.getPosition())

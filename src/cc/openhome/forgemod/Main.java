@@ -1,8 +1,8 @@
 package cc.openhome.forgemod;
 
-import cc.openhome.forgemod.command.Build;
-import cc.openhome.forgemod.command.Destroy;
-import cc.openhome.forgemod.command.Empty;
+import cc.openhome.forgemod.command.basic.Build;
+import cc.openhome.forgemod.command.basic.Destroy;
+import cc.openhome.forgemod.command.basic.Empty;
 import cc.openhome.forgemod.command.building.Pyramid;
 import cc.openhome.forgemod.command.building.Stairs;
 import cc.openhome.forgemod.command.drawing.Cube;

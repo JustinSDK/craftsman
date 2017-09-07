@@ -15,12 +15,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-
-import cc.openhome.forgemod.Blocker;
-import cc.openhome.forgemod.FstPerspective;
-import cc.openhome.forgemod.Commons;
-import cc.openhome.forgemod.Position;
+import cc.openhome.forgemod.command.Blocker;
+import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.FstPerspective;
+import cc.openhome.forgemod.command.Position;
 import cc.openhome.forgemod.command.drawing.Cube;
 
 public class Pyramid implements DefaultCommand {

@@ -1,12 +1,10 @@
 package cc.openhome.forgemod.command.drawing;
 
-import static cc.openhome.forgemod.FstPerspective.Vertical.UP;
-
-import cc.openhome.forgemod.Blocker;
-import cc.openhome.forgemod.Commons;
-import cc.openhome.forgemod.FstPerspective;
-import cc.openhome.forgemod.Position;
+import cc.openhome.forgemod.command.Blocker;
+import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.FstPerspective;
+import cc.openhome.forgemod.command.Position;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;

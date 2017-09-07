@@ -1,4 +1,4 @@
-package cc.openhome.forgemod;
+package cc.openhome.forgemod.command;
 
 import java.util.HashMap;
 import java.util.Map;

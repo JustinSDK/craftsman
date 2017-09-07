@@ -1,4 +1,4 @@
-package cc.openhome.forgemod;
+package cc.openhome.forgemod.command;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,16 +7,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 public class FstPerspective {
-    public static enum Vertical {
-        UP, DOWN
-    }
-
-    public final Vertical vt;
+    public final EnumFacing vt;
     public final int rows;
     public final int columns;
     public final int layers;
 
-    public FstPerspective(Vertical vt, int rows, int columns, int layers) {
+    public FstPerspective(EnumFacing vt, int rows, int columns, int layers) {
         this.vt = vt;
         this.rows = rows;
         this.columns = columns;
@@ -30,6 +26,7 @@ public class FstPerspective {
         result = prime * result + columns;
         result = prime * result + layers;
         result = prime * result + rows;
+        result = prime * result + ((vt == null) ? 0 : vt.hashCode());
         return result;
     }
 
@@ -48,7 +45,10 @@ public class FstPerspective {
             return false;
         if (rows != other.rows)
             return false;
+        if (vt != other.vt)
+            return false;
         return true;
     }
+
 
 }

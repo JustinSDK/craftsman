@@ -1,19 +1,21 @@
-package cc.openhome.forgemod.command;
+package cc.openhome.forgemod.command.basic;
 
 import java.util.Arrays;
+
 import java.util.List;
 
-import cc.openhome.forgemod.FstPerspective;
-import cc.openhome.forgemod.Commons;
-import cc.openhome.forgemod.Position;
+import cc.openhome.forgemod.command.Commons;
+import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.FstPerspective;
+import cc.openhome.forgemod.command.Position;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import static cc.openhome.forgemod.FstPerspective.Vertical.*;
 
 public interface RCLbasedCommand extends DefaultCommand {
     @Override
@@ -29,7 +31,7 @@ public interface RCLbasedCommand extends DefaultCommand {
         }
 
         FstPerspective perspective = new FstPerspective(
-            args[0].equals("up") ? UP : DOWN, 
+            args[0].equals("up") ? EnumFacing.UP : EnumFacing.DOWN, 
             Integer.parseInt(args[1]),
             Integer.parseInt(args[2]), 
             Integer.parseInt(args[3])
@@ -37,6 +39,11 @@ public interface RCLbasedCommand extends DefaultCommand {
 
         doCommand(server, sender, perspective);
     }
+    
+    default BlockPos origin(EntityPlayer player, EnumFacing vt, int layers) { 
+        BlockPos origin = Position.forward(player.getAdjustedHorizontalFacing(), player.getPosition(), 1);
+        return vt.equals(EnumFacing.UP) ? origin : origin.add(0, -layers, 0);
+    }           
     
     void doCommand(MinecraftServer server, ICommandSender sender, FstPerspective perspective) throws CommandException;
 }
