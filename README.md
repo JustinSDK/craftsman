@@ -4,11 +4,6 @@ I'm playing Minecraft recently. Here is a mod which helps when playing. It's bas
 
 Currently, there are following commands: 
 
-- Basic 
-    - `build`
-    - `destroy`
-    - `empty`
-
 - Building
     - `pyramid`
     - `stairs`
