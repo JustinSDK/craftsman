@@ -49,7 +49,9 @@ public class Pyramid implements DefaultCommand {
         int width = Integer.parseInt(args[3]);
         int height = Integer.parseInt(args[4]);
         
-        buildPyramid(player, ux, uy, uz, width, height);
+        Commons.runIfAirOrBlockHeld(sender, () -> {
+            buildPyramid(player, ux, uy, uz, width, height);
+        });
     }
 
     private void buildPyramid(EntityPlayer player, int ux, int uy, int uz, int width, int height) {
@@ -66,7 +68,7 @@ public class Pyramid implements DefaultCommand {
                 break;
             }
             
-            cube.doCommand(player, 
+            cube.doCommandWithoutCheckingBlock(player, 
                     new String[] {
                             String.valueOf(ux + h), String.valueOf(uy + h), String.valueOf(uz + h),
                             String.valueOf(w), String.valueOf(w), "1"

@@ -6,6 +6,7 @@ import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.Position;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +36,7 @@ public class Stairs implements DefaultCommand {
             return;
         }
         
-        Commons.runIfStairsHeld(sender, () -> {           
+        Commons.runIfAirOrStairsHeld(sender, () -> {           
             int ux = Integer.parseInt(args[1]);
             int uy = Integer.parseInt(args[2]);
             int uz = Integer.parseInt(args[3]);
@@ -46,7 +47,7 @@ public class Stairs implements DefaultCommand {
             EntityPlayer player = (EntityPlayer) sender;
             BlockPos origin = Commons.origin(player, ux, uy, uz);
             Item heldItem = player.getHeldItemMainhand().getItem();
-            BlockStairs heldBlock = (BlockStairs) Block.getBlockFromItem(heldItem);
+            Block heldBlock = Block.getBlockFromItem(heldItem);
             
             if("up".equals(args[0])) {
                 for(int w = 0; w < width; w++) {
@@ -63,13 +64,15 @@ public class Stairs implements DefaultCommand {
     }
 
 
-    private void columnUp(EntityPlayer player, int height, BlockPos origin, BlockStairs heldBlock) {
+    private void columnUp(EntityPlayer player, int height, BlockPos origin, Block heldBlock) {
         for(int h = 0; h < height; h++) {
             BlockPos pos = new Position(player.getAdjustedHorizontalFacing(), origin)
                                   .forward(h).up(h).getBlockPos();
+            IBlockState state = heldBlock.getDefaultState();
+            
             player.getEntityWorld().setBlockState(
                     pos, 
-                    heldBlock.getDefaultState().withRotation(fromFacingForUp(player))
+                    state.withRotation(fromFacingForUp(player)) 
             );
         }
     }
@@ -91,13 +94,15 @@ public class Stairs implements DefaultCommand {
     }
 
 
-    private void columnDown(EntityPlayer player, int height, BlockPos origin, BlockStairs heldBlock) {
+    private void columnDown(EntityPlayer player, int height, BlockPos origin, Block heldBlock) {
         for(int h = 0; h < height; h++) {
             BlockPos pos = new Position(player.getAdjustedHorizontalFacing(), origin)
                                   .forward(h).up(-h - 1).getBlockPos();
+            IBlockState state = heldBlock.getDefaultState();
+            
             player.getEntityWorld().setBlockState(
                     pos, 
-                    heldBlock.getDefaultState().withRotation(fromFacingForDown(player))
+                    state.withRotation(fromFacingForUp(player)) 
             );
         }
     }

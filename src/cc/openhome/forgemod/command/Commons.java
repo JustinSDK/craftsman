@@ -20,37 +20,36 @@ public class Commons {
         player.sendMessage(new TextComponentString(message));
     }
     
-    public static void runIfBlockHeld(ICommandSender sender, Runnable runnable) {
+    public static void runIfAirOrBlockHeld(ICommandSender sender, Runnable runnable) {
         EntityPlayer player = (EntityPlayer) sender;
         
         Item heldItem = player.getHeldItemMainhand().getItem();
-        if (heldItem.equals(Items.AIR) || !(heldItem instanceof ItemBlock)) {
+        
+        if(heldItem.equals(Items.AIR)) {
+            Commons.sendMessageTo(player, "You don't hold a block. The command will do the cleaning.");
+        } else if(!(heldItem instanceof ItemBlock)) {
             Commons.sendMessageTo(player, "Hold a block");
             return;
-        }        
+        }
         
         runnable.run();
     }
     
-    public static void runIfStairsHeld(ICommandSender sender, Runnable runnable) {
+    public static void runIfAirOrStairsHeld(ICommandSender sender, Runnable runnable) {
         EntityPlayer player = (EntityPlayer) sender;
         
         Item heldItem = player.getHeldItemMainhand().getItem();
         Block heldBlock = Block.getBlockFromItem(heldItem);
         
-        if (heldBlock.equals(Blocks.AIR) || !(heldBlock instanceof BlockStairs)) {
+        if(heldItem.equals(Items.AIR)) {
+            Commons.sendMessageTo(player, "You don't hold stairs. The command will do the cleaning.");
+        } else if(!(heldBlock instanceof BlockStairs)) {
             Commons.sendMessageTo(player, "Hold stairs");
             return;
         }        
         
         runnable.run();
     }    
-    
-
-//    public static BlockPos origin(FstPerspective perspective, EntityPlayer player) {
-//        BlockPos origin = Position.forward(player.getAdjustedHorizontalFacing(), player.getPosition(), 1);
-//        return perspective.vt == UP ? origin : origin.add(0, -perspective.layers, 0);
-//    }        
     
     public static BlockPos origin(EntityPlayer player, int ux, int uy, int uz) {
         return new Position(player.getAdjustedHorizontalFacing(), player.getPosition())

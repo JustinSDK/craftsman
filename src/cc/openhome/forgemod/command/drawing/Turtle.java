@@ -39,15 +39,9 @@ public class Turtle implements DefaultCommand {
             EntityPlayer player = event.player;
             
             Item heldItem = player.getHeldItemMainhand().getItem();
-            if (heldItem.equals(Items.AIR) || !(heldItem instanceof ItemBlock)) {
+            if (!(heldItem instanceof ItemBlock)) {
                 return;
             }    
-            
-            if(player.isSneaking()) {
-                BlockPos playerPos = 
-                        Position.forward(player.getAdjustedHorizontalFacing(), player.getPosition(), 1);            
-                player.setPosition(playerPos.getX(), playerPos.getY() - 0.25, playerPos.getZ());
-            } 
             
             IBlockState heldBlockState = Block.getBlockFromItem(heldItem).getDefaultState();
             BlockPos basePos = player.getPosition().add(0, -1, 0);

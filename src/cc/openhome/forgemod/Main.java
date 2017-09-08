@@ -1,8 +1,5 @@
 package cc.openhome.forgemod;
 
-import cc.openhome.forgemod.command.basic.Build;
-import cc.openhome.forgemod.command.basic.Destroy;
-import cc.openhome.forgemod.command.basic.Empty;
 import cc.openhome.forgemod.command.building.Pyramid;
 import cc.openhome.forgemod.command.building.Stairs;
 import cc.openhome.forgemod.command.drawing.Cube;
@@ -27,10 +24,6 @@ public class Main {
 
     @EventHandler
     public void init(FMLServerStartingEvent event) {
-        event.registerServerCommand(new Empty());
-        event.registerServerCommand(new Destroy());
-        event.registerServerCommand(new Build());
-
         event.registerServerCommand(new Pyramid());
         event.registerServerCommand(new Stairs());
 
