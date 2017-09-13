@@ -102,7 +102,7 @@ public class Stairs implements DefaultCommand {
             
             player.getEntityWorld().setBlockState(
                     pos, 
-                    state.withRotation(fromFacingForUp(player)) 
+                    state.withRotation(fromFacingForDown(player)) 
             );
         }
     }
