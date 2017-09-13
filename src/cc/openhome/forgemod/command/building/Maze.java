@@ -31,44 +31,8 @@ public class Maze implements DefaultCommand {
             this.wallHeight = wallHeight;
         }        
         
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + getOuterType().hashCode();
-            result = prime * result + userX;
-            result = prime * result + userY;
-            result = prime * result + userZ;
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            Grid other = (Grid) obj;
-            if (!getOuterType().equals(other.getOuterType()))
-                return false;
-            if (userX != other.userX)
-                return false;
-            if (userY != other.userY)
-                return false;
-            if (userZ != other.userZ)
-                return false;
-            return true;
-        }
-
-        private Maze getOuterType() {
-            return Maze.this;
-        }
-
+        
         void buildWith(ICommandSender sender, Cube cube) {
-            // <ux> <uy> <uz> <rows> <columns> <layers>
-            
             int offset = this.width - this.wallThickness;
             
             String[] upWallArgs = toCubeArgs(userX + offset, userY, userZ, wallThickness, width, wallHeight);
@@ -81,8 +45,6 @@ public class Maze implements DefaultCommand {
                 cube.doCommandWithoutCheckingBlock(sender, rightWallArgs); {
             }
         }
-        
-
     }
 
     
@@ -97,29 +59,23 @@ public class Maze implements DefaultCommand {
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-       /* int ux = Integer.valueOf(args[0]);
-        int uy = Integer.valueOf(args[1]);
-        int uz = Integer.valueOf(args[2]);
-        int w = Integer.valueOf(args[3]);
-        int t = Integer.valueOf(args[4]);
-        int h = Integer.valueOf(args[5]);
-        
-        Cube cube = new Cube();
-        
-        Grid grid = new Grid(ux, uy, uz, w, t, h);
-        
-        grid.buildWith(sender, cube);*/
-        
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {        
         int ux = Integer.valueOf(args[0]);
         int uy = Integer.valueOf(args[1]);
         int uz = Integer.valueOf(args[2]);
-        int rows = 4;    // Integer.valueOf(args[3]);
-        int columns = 4; // Integer.valueOf(args[4]);
+        int rows = Integer.valueOf(args[3]);
+        int columns = Integer.valueOf(args[4]);
         int gridWidth = Integer.valueOf(args[5]);
         int wallThickness = Integer.valueOf(args[6]);
         int wallHeight = Integer.valueOf(args[7]);     
         
+        buildMaze(sender, 
+            ux, uy, uz, 
+            rows, columns, 
+            gridWidth, wallThickness, wallHeight
+        );
+        
+        /*
         WallType[][] maze = {
             {WallType.UP, WallType.UP, WallType.UP, WallType.UP},
             {WallType.RIGHT, WallType.UP_RIGHT, WallType.UP, WallType.RIGHT},
@@ -132,8 +88,55 @@ public class Maze implements DefaultCommand {
             gridWidth, wallThickness, wallHeight, 
             maze
         );
+        */
     }
 
+    private void buildMaze(ICommandSender sender, 
+            int ux, int uy, int uz, 
+            int rows, int columns, 
+            int gridWidth, int wallThickness, int wallHeight) {
+        
+        Cube cube = new Cube();
+        
+        Grid[][] grids = initGrids(ux, uy, uz, rows, columns, gridWidth, wallThickness, wallHeight);
+        buildGrids(sender, cube, grids);
+        
+        // The most left and bottom walls
+        cube.doCommandWithoutCheckingBlock(
+            sender, toCubeArgs(ux, uy, uz, 
+                       rows * gridWidth + wallThickness, wallThickness, wallHeight
+                    )
+        );
+        cube.doCommandWithoutCheckingBlock(
+            sender, toCubeArgs(ux, uy, uz + gridWidth, 
+                        wallThickness, (columns - 1) * gridWidth + wallThickness, wallHeight
+                    )
+        );
+    }
+    
+    private Grid[][] initGrids(int ux, int uy, int uz, int rows, int columns, int gridWidth, int wallThickness, int wallHeight) {
+        Grid[][] mazeGrids = new Grid[rows][columns];
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < columns; j++) {
+                int gridUserX = i * gridWidth + wallThickness;
+                int gridUserZ = j * gridWidth + wallThickness;
+                mazeGrids[i][j] = new Grid(
+                        ux + gridUserX, uy, uz + gridUserZ, 
+                        gridWidth, wallThickness, wallHeight
+                );
+            }
+        }        
+        return mazeGrids;
+    }
+    
+    private void buildGrids(ICommandSender sender, Cube cube, Grid[][] mazeGrids) {
+        for(Grid[] rowGrids : mazeGrids) {
+            for(Grid grid : rowGrids) {
+                grid.buildWith(sender, cube);
+            }
+        }
+    }    
+/*
     private void buildMaze(ICommandSender sender, 
             int ux, int uy, int uz, 
             int rows, int columns, int gridWidth,
@@ -142,13 +145,13 @@ public class Maze implements DefaultCommand {
         
         Cube cube = new Cube();
         // maze
-        for(int row = 0; row < rows; row++) {
-            for(int column = 0; column < columns; column++) {
-                int gridUserX = row * gridWidth + wallThickness;
-                int gridUserZ = column * gridWidth + wallThickness;
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < columns; j++) {
+                int gridUserX = i * gridWidth + wallThickness;
+                int gridUserZ = j * gridWidth + wallThickness;
                 
                 Grid grid = new Grid(ux + gridUserX, uy, uz + gridUserZ, gridWidth, wallThickness, wallHeight);
-                grid.wallType = maze[rows - row - 1][column];
+                grid.wallType = maze[rows - i - 1][j];
                 grid.buildWith(sender, cube);
             }
         }
@@ -157,7 +160,7 @@ public class Maze implements DefaultCommand {
        cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(ux, uy, uz, rows * gridWidth + wallThickness, wallThickness, wallHeight));
        cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(ux, uy, uz + gridWidth, wallThickness, (columns - 1) * gridWidth + wallThickness, wallHeight));
     }
-    
+    */
     private String[] toCubeArgs(int ux, int uy, int uz,  int rows, int columns, int layers) {
         return new String[ ]{
             String.valueOf(ux),
