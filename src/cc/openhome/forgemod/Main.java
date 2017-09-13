@@ -1,5 +1,6 @@
 package cc.openhome.forgemod;
 
+import cc.openhome.forgemod.command.building.Maze;
 import cc.openhome.forgemod.command.building.Pyramid;
 import cc.openhome.forgemod.command.building.Stairs;
 import cc.openhome.forgemod.command.drawing.Cube;
@@ -26,6 +27,7 @@ public class Main {
     public void init(FMLServerStartingEvent event) {
         event.registerServerCommand(new Pyramid());
         event.registerServerCommand(new Stairs());
+        event.registerServerCommand(new Maze());
 
         event.registerServerCommand(new Turtle());
         
