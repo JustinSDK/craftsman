@@ -22,6 +22,8 @@ public class Maze implements DefaultCommand {
         
         WallType wallType = WallType.UP_RIGHT;
         
+        boolean visited;
+        
         public Grid(int userX, int userY, int userZ, int width, int wallThickness, int wallHeight) {
             this.userX = userX;
             this.userY = userY;
@@ -114,18 +116,23 @@ public class Maze implements DefaultCommand {
         );
     }
     
-    private Grid[][] initGrids(int ux, int uy, int uz, int rows, int columns, int gridWidth, int wallThickness, int wallHeight) {
+    private Grid[][] initGrids(int ux, int uy, int uz, 
+            int rows, int columns, 
+            int gridWidth, int wallThickness, int wallHeight) {
+        
         Grid[][] mazeGrids = new Grid[rows][columns];
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < columns; j++) {
                 int gridUserX = i * gridWidth + wallThickness;
                 int gridUserZ = j * gridWidth + wallThickness;
-                mazeGrids[i][j] = new Grid(
+                mazeGrids[rows - i - 1][j] = new Grid(
                         ux + gridUserX, uy, uz + gridUserZ, 
                         gridWidth, wallThickness, wallHeight
                 );
             }
-        }        
+        }
+        
+        mazeGrids[0][columns - 1].wallType = WallType.UP;
         return mazeGrids;
     }
     
@@ -161,7 +168,7 @@ public class Maze implements DefaultCommand {
        cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(ux, uy, uz + gridWidth, wallThickness, (columns - 1) * gridWidth + wallThickness, wallHeight));
     }
     */
-    private String[] toCubeArgs(int ux, int uy, int uz,  int rows, int columns, int layers) {
+    private String[] toCubeArgs(int ux, int uy, int uz, int rows, int columns, int layers) {
         return new String[ ]{
             String.valueOf(ux),
             String.valueOf(uy),
