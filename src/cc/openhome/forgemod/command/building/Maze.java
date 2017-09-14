@@ -174,6 +174,26 @@ public class Maze implements DefaultCommand {
         return dirs;
     }
     
+    private int nextI(Dir dir, int i) {
+        if(dir == Dir.UP) {
+            return i - 1;
+        } else if(dir == Dir.DOWN) {
+            return i + 1;
+        } else {
+            return i;
+        }
+    }
+    
+    private int nextJ(Dir dir, int j) {
+        if(dir == Dir.LEFT) {
+            return j - 1;
+        } else if(dir == Dir.RIGHT) {
+            return j + 1;
+        } else {
+            return j;
+        }
+    }    
+    
     private static String[] toCubeArgs(FstPos fstPos, FstDimension fstDimension) {
         return new String[ ]{
             String.valueOf(fstPos.ux),
