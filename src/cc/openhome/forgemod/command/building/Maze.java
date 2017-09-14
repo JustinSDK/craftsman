@@ -62,10 +62,112 @@ public class Maze implements DefaultCommand {
         }
     }
     
-    private Grid[][] grids;
-
-    private void setGrids(Grid[][] grids) {
-        this.grids = grids;
+    private static class GridCreator {
+        final Grid[][] grids;
+        
+        GridCreator(FstPos origin, 
+                FstDimension mazeDimension, 
+                int gridWidth, int wallThickness) {
+            this.grids = initGrids(origin, mazeDimension, gridWidth, wallThickness);
+        }    
+        
+        private Grid[][] initGrids(FstPos origin, 
+                FstDimension mazeDimension, 
+                int gridWidth, int wallThickness) {
+            
+            Grid[][] mazeGrids = new Grid[mazeDimension.rows][mazeDimension.columns];
+            for(int i = 0; i < mazeDimension.rows; i++) {
+                for(int j = 0; j < mazeDimension.columns; j++) {
+                    int gridUserX = i * gridWidth + wallThickness;
+                    int gridUserZ = j * gridWidth + wallThickness;
+                    
+                    mazeGrids[mazeDimension.rows - i - 1][j] = new Grid(
+                        new FstPos(origin.ux + gridUserX, origin.uy, origin.uz + gridUserZ),
+                        gridWidth, wallThickness, mazeDimension.layers
+                    );
+                }
+            }
+            mazeGrids[0][mazeDimension.columns - 1].wallType = WallType.RIGHT;
+            
+            return mazeGrids;
+        }
+        
+        private boolean isVisitable(Grid[][] grids, int i, int j) {
+            return i >= 0 && i < grids.length &&
+                   j >= 0 && j < grids[0].length &&
+                   !grids[i][j].visited;
+        }
+        
+        private List<Dir> randomDirs() {
+            List<Dir> dirs = Arrays.asList(Dir.UP, Dir.DOWN, Dir.LEFT, Dir.RIGHT);
+            Collections.shuffle(dirs);
+            return dirs;
+        }
+        
+        private int nextI(Dir dir, int i) {
+            if(dir == Dir.UP) {
+                return i - 1;
+            } else if(dir == Dir.DOWN) {
+                return i + 1;
+            } else {
+                return i;
+            }
+        }
+        
+        private int nextJ(Dir dir, int j) {
+            if(dir == Dir.LEFT) {
+                return j - 1;
+            } else if(dir == Dir.RIGHT) {
+                return j + 1;
+            } else {
+                return j;
+            }
+        }    
+        
+        private void breakRightWallOf(int i, int j) {
+            if(grids[i][j].wallType == WallType.UP_RIGHT) {
+                grids[i][j].wallType = WallType.UP;
+            } else {
+                grids[i][j].wallType = WallType.NONE;
+            }
+        }
+        
+        private void breakUpWallOf(int i, int j) {
+            if(grids[i][j].wallType == WallType.UP_RIGHT) {
+                grids[i][j].wallType = WallType.RIGHT;
+            } else {
+                grids[i][j].wallType = WallType.NONE;
+            }        
+        }
+        
+        private void breakLeftWallOf(int i, int j) {
+            if(grids[i][j - 1].wallType == WallType.UP_RIGHT) {
+                grids[i][j - 1].wallType = WallType.UP;
+            } else {
+                grids[i][j - 1].wallType = WallType.NONE;
+            }        
+        }   
+        
+        private void breakDownWallOf(int i, int j) {
+            if(grids[i + 1][j].wallType == WallType.UP_RIGHT) {
+                grids[i + 1][j].wallType = WallType.RIGHT;
+            } else {
+                grids[i + 1][j].wallType = WallType.NONE;
+            }        
+        }        
+        
+        private void breakWallBeforeGoing(Dir dir, int i, int j) {
+            switch(dir) {
+            case UP:
+                breakUpWallOf(i, j); break;
+            case DOWN:
+                breakDownWallOf(i, j); break;
+            case LEFT:
+                breakLeftWallOf(i, j); break;
+            case RIGHT:
+                breakRightWallOf(i, j);
+            }
+        }            
     }
     
     @Override
@@ -99,18 +201,17 @@ public class Maze implements DefaultCommand {
             gridWidth, wallThickness
         );
     }
+    
 
     private void buildMaze(ICommandSender sender, 
             FstPos origin, 
             FstDimension mazeDimension,
             int gridWidth, int wallThickness) {
-        
-        
 
-        setGrids(initGrids(origin, mazeDimension, gridWidth, wallThickness));
-        
+        GridCreator gridCreator = new GridCreator(origin, mazeDimension, gridWidth, wallThickness);
         Cube cube = new Cube();
-        buildGrids(sender, cube);
+        
+        buildGrids(sender, cube, gridCreator.grids);
         
         // The most left and bottom walls
         cube.doCommandWithoutCheckingBlock(
@@ -133,111 +234,13 @@ public class Maze implements DefaultCommand {
         );
     }
     
-    private Grid[][] initGrids(FstPos origin, 
-            FstDimension mazeDimension, 
-            int gridWidth, int wallThickness) {
-        
-        Grid[][] mazeGrids = new Grid[mazeDimension.rows][mazeDimension.columns];
-        for(int i = 0; i < mazeDimension.rows; i++) {
-            for(int j = 0; j < mazeDimension.columns; j++) {
-                int gridUserX = i * gridWidth + wallThickness;
-                int gridUserZ = j * gridWidth + wallThickness;
-                
-                mazeGrids[mazeDimension.rows - i - 1][j] = new Grid(
-                    new FstPos(origin.ux + gridUserX, origin.uy, origin.uz + gridUserZ),
-                    gridWidth, wallThickness, mazeDimension.layers
-                );
-            }
-        }
-        mazeGrids[0][mazeDimension.columns - 1].wallType = WallType.RIGHT;
-        
-        return mazeGrids;
-    }
-    
-    private void buildGrids(ICommandSender sender, Cube cube) {
+    private void buildGrids(ICommandSender sender, Cube cube, Grid[][] grids) {
         for(Grid[] rowGrids : grids) {
             for(Grid grid : rowGrids) {
                 grid.buildWith(sender, cube);
             }
         }
     }    
-    
-    private boolean isVisitable(Grid[][] grids, int i, int j) {
-        return i >= 0 && i < grids.length &&
-               j >= 0 && j < grids[0].length &&
-               !grids[i][j].visited;
-    }
-    
-    private List<Dir> randomDirs() {
-        List<Dir> dirs = Arrays.asList(Dir.UP, Dir.DOWN, Dir.LEFT, Dir.RIGHT);
-        Collections.shuffle(dirs);
-        return dirs;
-    }
-    
-    private int nextI(Dir dir, int i) {
-        if(dir == Dir.UP) {
-            return i - 1;
-        } else if(dir == Dir.DOWN) {
-            return i + 1;
-        } else {
-            return i;
-        }
-    }
-    
-    private int nextJ(Dir dir, int j) {
-        if(dir == Dir.LEFT) {
-            return j - 1;
-        } else if(dir == Dir.RIGHT) {
-            return j + 1;
-        } else {
-            return j;
-        }
-    }    
-    
-    private void breakRightWallOf(int i, int j) {
-        if(grids[i][j].wallType == WallType.UP_RIGHT) {
-            grids[i][j].wallType = WallType.UP;
-        } else {
-            grids[i][j].wallType = WallType.NONE;
-        }
-    }
-    
-    private void breakWallBeforeGoing(Dir dir, int i, int j) {
-        switch(dir) {
-        case UP:
-            breakUpWallOf(i, j); break;
-        case DOWN:
-            breakDownWallOf(i, j); break;
-        case LEFT:
-            breakLeftWallOf(i, j); break;
-        case RIGHT:
-            breakRightWallOf(i, j);
-        }
-    }
-    
-    private void breakUpWallOf(int i, int j) {
-        if(grids[i][j].wallType == WallType.UP_RIGHT) {
-            grids[i][j].wallType = WallType.RIGHT;
-        } else {
-            grids[i][j].wallType = WallType.NONE;
-        }        
-    }
-    
-    private void breakLeftWallOf(int i, int j) {
-        if(grids[i][j - 1].wallType == WallType.UP_RIGHT) {
-            grids[i][j - 1].wallType = WallType.UP;
-        } else {
-            grids[i][j - 1].wallType = WallType.NONE;
-        }        
-    }   
-    
-    private void breakDownWallOf(int i, int j) {
-        if(grids[i + 1][j].wallType == WallType.UP_RIGHT) {
-            grids[i + 1][j].wallType = WallType.RIGHT;
-        } else {
-            grids[i + 1][j].wallType = WallType.NONE;
-        }        
-    }        
     
     private static String[] toCubeArgs(FstPos fstPos, FstDimension fstDimension) {
         return new String[ ]{
