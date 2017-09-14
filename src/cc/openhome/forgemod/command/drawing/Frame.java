@@ -3,8 +3,8 @@ package cc.openhome.forgemod.command.drawing;
 import cc.openhome.forgemod.command.Blocker;
 import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
-import cc.openhome.forgemod.command.FstPerspective;
-import cc.openhome.forgemod.command.Position;
+import cc.openhome.forgemod.command.FstDimension;
+import cc.openhome.forgemod.command.Walker;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
@@ -34,7 +34,6 @@ public class Frame implements DefaultCommand {
             Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
             return;
         }
-        
         
         Commons.runIfAirOrBlockHeld(sender, () -> {
             if("ht".equals(args[0])) {

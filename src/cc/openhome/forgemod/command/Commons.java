@@ -52,7 +52,7 @@ public class Commons {
     }    
     
     public static BlockPos origin(EntityPlayer player, int ux, int uy, int uz) {
-        return new Position(player.getAdjustedHorizontalFacing(), player.getPosition())
+        return new Walker(player.getAdjustedHorizontalFacing(), player.getPosition())
                         .forward(1 + ux) 
                         .up(uy)           
                         .right(uz)      

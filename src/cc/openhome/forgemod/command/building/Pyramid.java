@@ -18,8 +18,9 @@ import net.minecraft.util.text.TextComponentString;
 import cc.openhome.forgemod.command.Blocker;
 import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
-import cc.openhome.forgemod.command.FstPerspective;
-import cc.openhome.forgemod.command.Position;
+import cc.openhome.forgemod.command.FstDimension;
+import cc.openhome.forgemod.command.FstPos;
+import cc.openhome.forgemod.command.Walker;
 import cc.openhome.forgemod.command.drawing.Cube;
 
 public class Pyramid implements DefaultCommand {
@@ -50,29 +51,32 @@ public class Pyramid implements DefaultCommand {
         int height = Integer.parseInt(args[4]);
         
         Commons.runIfAirOrBlockHeld(sender, () -> {
-            buildPyramid(player, ux, uy, uz, width, height);
+            buildPyramid(player, 
+                new FstPos(ux, uy, uz), 
+                new FstDimension(width, height)
+            );
         });
     }
 
-    private void buildPyramid(EntityPlayer player, int ux, int uy, int uz, int width, int height) {
+    private void buildPyramid(EntityPlayer player, FstPos fstPos, FstDimension fstDimension) {
         EnumFacing facing = player.getAdjustedHorizontalFacing();
         BlockPos playerPos = player.getPosition();
         Item heldItem = player.getHeldItemMainhand().getItem();
         
         Cube cube = new Cube();
 
-        for (int h = 0; h < height; h++) {
-            int w = width - h * 2;
+        for (int h = 0; h < fstDimension.layers; h++) {
+            int w = fstDimension.rows - h * 2;
 
             if (w <= 0) {
                 break;
             }
             
             cube.doCommandWithoutCheckingBlock(player, 
-                    new String[] {
-                            String.valueOf(ux + h), String.valueOf(uy + h), String.valueOf(uz + h),
-                            String.valueOf(w), String.valueOf(w), "1"
-                    }
+                new String[] {
+                        String.valueOf(fstPos.ux + h), String.valueOf(fstPos.uy + h), String.valueOf(fstPos.uz + h),
+                        String.valueOf(w), String.valueOf(w), "1"
+                }
             );
         }
     }

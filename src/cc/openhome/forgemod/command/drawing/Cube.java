@@ -6,8 +6,8 @@ import java.util.List;
 import cc.openhome.forgemod.command.Blocker;
 import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
-import cc.openhome.forgemod.command.FstPerspective;
-import cc.openhome.forgemod.command.Position;
+import cc.openhome.forgemod.command.FstDimension;
+import cc.openhome.forgemod.command.Walker;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -57,16 +57,12 @@ public class Cube implements DefaultCommand {
             Integer.parseInt(args[1]), 
             Integer.parseInt(args[2])
          );
-
         
-        FstPerspective perspective = new FstPerspective(
-                EnumFacing.UP, 
-                Integer.parseInt(args[3]),
-                Integer.parseInt(args[4]), 
-                Integer.parseInt(args[5])
-            );
+        int rows = Integer.parseInt(args[3]);
+        int columns = Integer.parseInt(args[4]); 
+        int layers = Integer.parseInt(args[5]);
         
-        Position position = new Position(
+        Walker position = new Walker(
             player.getAdjustedHorizontalFacing(), 
             origin                    
         );
@@ -77,7 +73,7 @@ public class Cube implements DefaultCommand {
                     player.getEntityWorld()
                           .setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
                 }, 
-                perspective.rows, perspective.columns, perspective.layers
+                rows, columns, layers
             );
     }
 }
