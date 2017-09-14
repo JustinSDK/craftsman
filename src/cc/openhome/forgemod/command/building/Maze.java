@@ -1,5 +1,9 @@
 package cc.openhome.forgemod.command.building;
 
+import java.util.List;
+import java.util.Arrays;
+import java.util.Collections;
+
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
 import cc.openhome.forgemod.command.FstPos;
@@ -11,6 +15,10 @@ import net.minecraft.server.MinecraftServer;
 public class Maze implements DefaultCommand {
     private static enum WallType {
         NONE, UP, RIGHT, UP_RIGHT,
+    }
+    
+    private static enum Dir {
+        UP, DOWN, LEFT, RIGHT
     }
     
     private static class Grid {
@@ -151,6 +159,12 @@ public class Maze implements DefaultCommand {
         return i >= 0 && i < grids.length &&
                j >= 0 && j < grids[0].length &&
                !grids[i][j].visited;
+    }
+    
+    private List<Dir> randomDirs() {
+        List<Dir> dirs = Arrays.asList(Dir.UP, Dir.DOWN, Dir.LEFT, Dir.RIGHT);
+        Collections.shuffle(dirs);
+        return dirs;
     }
     
     private static String[] toCubeArgs(FstPos fstPos, FstDimension fstDimension) {
