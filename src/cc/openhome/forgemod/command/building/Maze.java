@@ -202,6 +202,19 @@ public class Maze implements DefaultCommand {
         }
     }
     
+    private void breakWallBeforeGoing(Dir dir, int i, int j) {
+        switch(dir) {
+        case UP:
+            breakUpWallOf(i, j); break;
+        case DOWN:
+            breakDownWallOf(i, j); break;
+        case LEFT:
+            breakLeftWallOf(i, j); break;
+        case RIGHT:
+            breakRightWallOf(i, j);
+        }
+    }
+    
     private void breakUpWallOf(int i, int j) {
         if(grids[i][j].wallType == WallType.UP_RIGHT) {
             grids[i][j].wallType = WallType.RIGHT;
