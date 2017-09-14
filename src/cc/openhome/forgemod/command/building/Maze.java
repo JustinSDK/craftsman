@@ -9,7 +9,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
 public class Maze implements DefaultCommand {
-    private enum WallType {
+    private static enum WallType {
         NONE, UP, RIGHT, UP_RIGHT,
     }
     
