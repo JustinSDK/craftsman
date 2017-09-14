@@ -13,7 +13,7 @@ public class Maze implements DefaultCommand {
         NONE, UP, RIGHT, UP_RIGHT,
     }
     
-    private class Grid {
+    private static class Grid {
         final FstPos origin;
         
         final int width;
@@ -85,21 +85,6 @@ public class Maze implements DefaultCommand {
             mazeDimension,
             gridWidth, wallThickness
         );
-        
-        /*
-        WallType[][] maze = {
-            {WallType.UP, WallType.UP, WallType.UP, WallType.UP},
-            {WallType.RIGHT, WallType.UP_RIGHT, WallType.UP, WallType.RIGHT},
-            {WallType.NONE, WallType.RIGHT, WallType.RIGHT, WallType.RIGHT},
-            {WallType.UP, WallType.UP, WallType.RIGHT, WallType.RIGHT}  
-        };
-        
-        buildMaze(sender, 
-            ux, uy, uz, rows, columns, 
-            gridWidth, wallThickness, wallHeight, 
-            maze
-        );
-        */
     }
 
     private void buildMaze(ICommandSender sender, 
@@ -149,7 +134,7 @@ public class Maze implements DefaultCommand {
                 );
             }
         }
-        mazeGrids[0][mazeDimension.columns - 1].wallType = WallType.UP;
+        mazeGrids[0][mazeDimension.columns - 1].wallType = WallType.RIGHT;
         
         return mazeGrids;
     }
@@ -167,32 +152,8 @@ public class Maze implements DefaultCommand {
                j >= 0 && j < grids[0].length &&
                !grids[i][j].visited;
     }
-/*
-    private void buildMaze(ICommandSender sender, 
-            int ux, int uy, int uz, 
-            int rows, int columns, int gridWidth,
-            int wallThickness, int wallHeight, 
-            WallType[][] maze) {
-        
-        Cube cube = new Cube();
-        // maze
-        for(int i = 0; i < rows; i++) {
-            for(int j = 0; j < columns; j++) {
-                int gridUserX = i * gridWidth + wallThickness;
-                int gridUserZ = j * gridWidth + wallThickness;
-                
-                Grid grid = new Grid(ux + gridUserX, uy, uz + gridUserZ, gridWidth, wallThickness, wallHeight);
-                grid.wallType = maze[rows - i - 1][j];
-                grid.buildWith(sender, cube);
-            }
-        }
-        
-       // maze sides
-       cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(ux, uy, uz, rows * gridWidth + wallThickness, wallThickness, wallHeight));
-       cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(ux, uy, uz + gridWidth, wallThickness, (columns - 1) * gridWidth + wallThickness, wallHeight));
-    }
-    */
-    private String[] toCubeArgs(FstPos fstPos, FstDimension fstDimension) {
+    
+    private static String[] toCubeArgs(FstPos fstPos, FstDimension fstDimension) {
         return new String[ ]{
             String.valueOf(fstPos.ux),
             String.valueOf(fstPos.uy),
