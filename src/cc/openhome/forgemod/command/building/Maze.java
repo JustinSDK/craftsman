@@ -194,6 +194,38 @@ public class Maze implements DefaultCommand {
         }
     }    
     
+    private void breakRightWallOf(int i, int j) {
+        if(grids[i][j].wallType == WallType.UP_RIGHT) {
+            grids[i][j].wallType = WallType.UP;
+        } else {
+            grids[i][j].wallType = WallType.NONE;
+        }
+    }
+    
+    private void breakUpWallOf(int i, int j) {
+        if(grids[i][j].wallType == WallType.UP_RIGHT) {
+            grids[i][j].wallType = WallType.RIGHT;
+        } else {
+            grids[i][j].wallType = WallType.NONE;
+        }        
+    }
+    
+    private void breakLeftWallOf(int i, int j) {
+        if(grids[i][j - 1].wallType == WallType.UP_RIGHT) {
+            grids[i][j - 1].wallType = WallType.UP;
+        } else {
+            grids[i][j - 1].wallType = WallType.NONE;
+        }        
+    }   
+    
+    private void breakDownWallOf(int i, int j) {
+        if(grids[i + 1][j].wallType == WallType.UP_RIGHT) {
+            grids[i + 1][j].wallType = WallType.RIGHT;
+        } else {
+            grids[i + 1][j].wallType = WallType.NONE;
+        }        
+    }        
+    
     private static String[] toCubeArgs(FstPos fstPos, FstDimension fstDimension) {
         return new String[ ]{
             String.valueOf(fstPos.ux),
