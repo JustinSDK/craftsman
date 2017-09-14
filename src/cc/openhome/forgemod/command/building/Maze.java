@@ -61,7 +61,12 @@ public class Maze implements DefaultCommand {
             }
         }
     }
+    
+    private Grid[][] grids;
 
+    private void setGrids(Grid[][] grids) {
+        this.grids = grids;
+    }
     
     @Override
     public String getName() {
@@ -100,10 +105,12 @@ public class Maze implements DefaultCommand {
             FstDimension mazeDimension,
             int gridWidth, int wallThickness) {
         
-        Cube cube = new Cube();
         
-        Grid[][] grids = initGrids(origin, mazeDimension, gridWidth, wallThickness);
-        buildGrids(sender, cube, grids);
+
+        setGrids(initGrids(origin, mazeDimension, gridWidth, wallThickness));
+        
+        Cube cube = new Cube();
+        buildGrids(sender, cube);
         
         // The most left and bottom walls
         cube.doCommandWithoutCheckingBlock(
@@ -147,8 +154,8 @@ public class Maze implements DefaultCommand {
         return mazeGrids;
     }
     
-    private void buildGrids(ICommandSender sender, Cube cube, Grid[][] mazeGrids) {
-        for(Grid[] rowGrids : mazeGrids) {
+    private void buildGrids(ICommandSender sender, Cube cube) {
+        for(Grid[] rowGrids : grids) {
             for(Grid grid : rowGrids) {
                 grid.buildWith(sender, cube);
             }
