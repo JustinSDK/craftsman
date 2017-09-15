@@ -20,20 +20,24 @@ public class Commons {
         player.sendMessage(new TextComponentString(message));
     }
     
-    public static void runIfAirOrBlockHeld(ICommandSender sender, Runnable runnable) {
+    public static void runIfAirOrBlockHeld(ICommandSender sender, Runnable airOrBlockHeld) {
+        runIfAirOrBlockHeld(sender, airOrBlockHeld, airOrBlockHeld); 
+    }
+
+    public static void runIfAirOrBlockHeld(ICommandSender sender, Runnable blockHeld, Runnable airHeld) {
         EntityPlayer player = (EntityPlayer) sender;
         
         Item heldItem = player.getHeldItemMainhand().getItem();
         
         if(heldItem.equals(Items.AIR)) {
             Commons.sendMessageTo(player, "You don't hold a block. The command will do the cleaning.");
+            airHeld.run();
         } else if(!(heldItem instanceof ItemBlock)) {
             Commons.sendMessageTo(player, "Hold a block");
-            return;
+        } else {
+            blockHeld.run();
         }
-        
-        runnable.run();
-    }
+    }    
     
     public static void runIfAirOrStairsHeld(ICommandSender sender, Runnable runnable) {
         EntityPlayer player = (EntityPlayer) sender;

@@ -1,15 +1,18 @@
 package cc.openhome.forgemod.command.building;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
 import cc.openhome.forgemod.command.FstPos;
 import cc.openhome.forgemod.command.drawing.Cube;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
 public class Maze implements DefaultCommand {
@@ -52,23 +55,31 @@ public class Maze implements DefaultCommand {
                 new FstPos(origin.ux, origin.uy, origin.uz + offset), 
                 new FstDimension(width, wallThickness, wallHeight)
             );
+            String[] cornerWallArgs =  toCubeArgs(
+                new FstPos(origin.ux + offset, origin.uy, origin.uz + offset), 
+                new FstDimension(wallThickness, wallThickness, wallHeight)
+            );
             
             if(wallType == WallType.UP || wallType == WallType.UP_RIGHT) {
                 cube.doCommandWithoutCheckingBlock(sender, upWallArgs);
             }
-            if(wallType == WallType.RIGHT || wallType == WallType.UP_RIGHT)
-                cube.doCommandWithoutCheckingBlock(sender, rightWallArgs); {
+            if(wallType == WallType.RIGHT || wallType == WallType.UP_RIGHT) {
+                cube.doCommandWithoutCheckingBlock(sender, rightWallArgs); 
+            }
+            if(wallType == WallType.NONE) {
+                cube.doCommandWithoutCheckingBlock(sender, cornerWallArgs); 
             }
         }
     }
     
-    private static class GridCreator {
+    private static class GridsCreator {
         final Grid[][] grids;
         
-        GridCreator(FstPos origin, 
+        GridsCreator(FstPos origin, 
                 FstDimension mazeDimension, 
                 int gridWidth, int wallThickness) {
             this.grids = initGrids(origin, mazeDimension, gridWidth, wallThickness);
+            visit(mazeDimension.rows - 1, 0);
         }    
         
         private Grid[][] initGrids(FstPos origin, 
@@ -92,16 +103,10 @@ public class Maze implements DefaultCommand {
             return mazeGrids;
         }
         
-        private boolean isVisitable(Grid[][] grids, int i, int j) {
-            return i >= 0 && i < grids.length &&
-                   j >= 0 && j < grids[0].length &&
-                   !grids[i][j].visited;
-        }
-        
-        private List<Dir> randomDirs() {
-            List<Dir> dirs = Arrays.asList(Dir.UP, Dir.DOWN, Dir.LEFT, Dir.RIGHT);
-            Collections.shuffle(dirs);
-            return dirs;
+        private boolean isVisitable(int i, int j) {
+            return  i >= 0 && i < grids.length &&
+                    j >= 0 && j < grids[0].length &&
+                    !grids[i][j].visited;
         }
         
         private int nextI(Dir dir, int i) {
@@ -168,6 +173,35 @@ public class Maze implements DefaultCommand {
                 breakRightWallOf(i, j);
             }
         }            
+        
+        private List<Dir> visitableDirs(int i, int j) {
+            List<Dir> dirs = new ArrayList<>();
+            for(Dir dir : Dir.values()) {
+                if(isVisitable(nextI(dir, i), nextJ(dir, j))) {
+                    dirs.add(dir);
+                }
+            }
+            return dirs;
+        }
+        
+        private void visit(int i, int j) {
+            grids[i][j].visited = true;
+            
+            List<Dir> currentVisitableDirs = visitableDirs(i, j);
+            if(!currentVisitableDirs.isEmpty()) {
+                Collections.shuffle(currentVisitableDirs);
+                
+                for(Dir dir : currentVisitableDirs) {
+                    int nxtI = nextI(dir, i);
+                    int nxtJ = nextJ(dir, j);
+                    // we need to check again when trying next dir
+                    if(isVisitable(nxtI, nxtJ)) {
+                        breakWallBeforeGoing(dir, i, j);
+                        visit(nxtI, nxtJ);
+                    }
+                }
+            }
+        }
     }
     
     @Override
@@ -181,7 +215,12 @@ public class Maze implements DefaultCommand {
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {        
+    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
+        if (args.length != 8) {
+            Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
+            return;
+        }    
+        
         int ux = Integer.valueOf(args[0]);
         int uy = Integer.valueOf(args[1]);
         int uz = Integer.valueOf(args[2]);
@@ -193,22 +232,36 @@ public class Maze implements DefaultCommand {
         int wallThickness = Integer.valueOf(args[6]);
         int wallHeight = Integer.valueOf(args[7]);  
         
-        FstDimension mazeDimension = new FstDimension(rows, columns, wallHeight);
-        
-        buildMaze(sender, 
-            new FstPos(ux, uy, uz),
-            mazeDimension,
-            gridWidth, wallThickness
+        Commons.runIfAirOrBlockHeld(sender, 
+            () -> {  // build maze
+                FstDimension mazeDimension = new FstDimension(rows, columns, wallHeight);
+                
+                buildMaze(sender, 
+                    new FstPos(ux, uy, uz),
+                    mazeDimension,
+                    gridWidth, wallThickness
+                );
+            }, 
+            () -> { // clean maze
+                String[] cubeArgs = {
+                    args[0], args[1], args[2], 
+                    String.valueOf(rows * gridWidth + wallThickness), String.valueOf(columns * gridWidth + wallThickness), args[7]
+                };
+
+                Cube cube = new Cube();
+                cube.doCommandWithoutCheckingBlock(sender, cubeArgs);
+            }
         );
     }
     
-
     private void buildMaze(ICommandSender sender, 
             FstPos origin, 
             FstDimension mazeDimension,
             int gridWidth, int wallThickness) {
 
-        GridCreator gridCreator = new GridCreator(origin, mazeDimension, gridWidth, wallThickness);
+        GridsCreator gridCreator = 
+                new GridsCreator(origin, mazeDimension, gridWidth, wallThickness);
+        
         Cube cube = new Cube();
         
         buildGrids(sender, cube, gridCreator.grids);
