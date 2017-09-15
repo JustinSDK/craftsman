@@ -35,41 +35,12 @@ public class Maze implements DefaultCommand {
         
         boolean visited;
         
-        public Grid(FstPos origin, int width, int wallThickness, int wallHeight) {
+        Grid(FstPos origin, int width, int wallThickness, int wallHeight) {
             this.origin = origin;
             this.width = width;
             this.wallThickness = wallThickness;
             this.wallHeight = wallHeight;
         }        
-        
-        
-        void buildWith(ICommandSender sender, Cube cube) {
-            int offset = this.width - this.wallThickness;
-            
-            String[] upWallArgs = toCubeArgs(
-                new FstPos(origin.ux + offset, origin.uy, origin.uz), 
-                new FstDimension(wallThickness, width, wallHeight)
-                
-            );
-            String[] rightWallArgs = toCubeArgs(
-                new FstPos(origin.ux, origin.uy, origin.uz + offset), 
-                new FstDimension(width, wallThickness, wallHeight)
-            );
-            String[] cornerWallArgs =  toCubeArgs(
-                new FstPos(origin.ux + offset, origin.uy, origin.uz + offset), 
-                new FstDimension(wallThickness, wallThickness, wallHeight)
-            );
-            
-            if(wallType == WallType.UP || wallType == WallType.UP_RIGHT) {
-                cube.doCommandWithoutCheckingBlock(sender, upWallArgs);
-            }
-            if(wallType == WallType.RIGHT || wallType == WallType.UP_RIGHT) {
-                cube.doCommandWithoutCheckingBlock(sender, rightWallArgs); 
-            }
-            if(wallType == WallType.NONE) {
-                cube.doCommandWithoutCheckingBlock(sender, cornerWallArgs); 
-            }
-        }
     }
     
     private static class GridsCreator {
@@ -290,10 +261,44 @@ public class Maze implements DefaultCommand {
     private void buildGrids(ICommandSender sender, Cube cube, Grid[][] grids) {
         for(Grid[] rowGrids : grids) {
             for(Grid grid : rowGrids) {
-                grid.buildWith(sender, cube);
+                buildGrid(sender, cube, grid);
             }
         }
     }    
+    
+    private void buildGrid(ICommandSender sender, Cube cube, Grid grid) {
+        int width = grid.width;
+        int wallThickness = grid.wallThickness;
+        int wallHeight = grid.wallHeight;
+        FstPos origin = grid.origin;
+        WallType wallType = grid.wallType;
+        
+        int offset = width - wallThickness;
+        
+        String[] upWallArgs = toCubeArgs(
+            new FstPos(origin.ux + offset, origin.uy, origin.uz), 
+            new FstDimension(wallThickness, width, wallHeight)
+            
+        );
+        String[] rightWallArgs = toCubeArgs(
+            new FstPos(origin.ux, origin.uy, origin.uz + offset), 
+            new FstDimension(width, wallThickness, wallHeight)
+        );
+        String[] cornerWallArgs =  toCubeArgs(
+            new FstPos(origin.ux + offset, origin.uy, origin.uz + offset), 
+            new FstDimension(wallThickness, wallThickness, wallHeight)
+        );
+        
+        if(wallType == WallType.UP || wallType == WallType.UP_RIGHT) {
+            cube.doCommandWithoutCheckingBlock(sender, upWallArgs);
+        }
+        if(wallType == WallType.RIGHT || wallType == WallType.UP_RIGHT) {
+            cube.doCommandWithoutCheckingBlock(sender, rightWallArgs); 
+        }
+        if(wallType == WallType.NONE) {
+            cube.doCommandWithoutCheckingBlock(sender, cornerWallArgs); 
+        }
+    }
     
     private static String[] toCubeArgs(FstPos fstPos, FstDimension fstDimension) {
         return new String[ ]{
