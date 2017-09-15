@@ -21,4 +21,8 @@ You may be a turtle to `draw' your building.
 
 ![turtle](docs/images/turtle_command.jpg)
 
+Do you want to challenge mazes?
+
+![maze](docs/images/maze_command.jpg)
+
 I'll provide more docs if the mod is more stable.
