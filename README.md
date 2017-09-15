@@ -7,6 +7,7 @@ Currently, there are following commands:
 - Building
     - `pyramid`
     - `stairs`
+    - `maze`
 
 - Drawing
     - `cube`
