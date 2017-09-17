@@ -27,7 +27,7 @@ public class Line implements DefaultCommand {
     @Override
     public String getUsage(ICommandSender sender) {
         return String.format("/%s <ux1> <uy1> <uz1> <ux2> <uy2> <uz2>", getName());
-    }
+    } 
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
@@ -41,7 +41,6 @@ public class Line implements DefaultCommand {
         Commons.runIfAirOrBlockHeld(sender, () -> {
             Item heldItem = player.getHeldItemMainhand().getItem();
 
-            
             BlockPos start = toBlockPos(new FstPos(
                     Integer.parseInt(args[0]),
                     Integer.parseInt(args[1]),
@@ -60,38 +59,37 @@ public class Line implements DefaultCommand {
             }
         });
     }
-
+    
+    private int ax;
+    private int ay;
+    private int az;
+    
+    private int sx;
+    private int sy;
+    private int sz;       
+    
     private List<BlockPos> posList(BlockPos start, BlockPos end) {
         int dx = end.getX() - start.getX();
         int dy = end.getY() - start.getY();
         int dz = end.getZ() - start.getZ();
         
-        int ax = Math.abs(dx) << 1;
-        int ay = Math.abs(dy) << 1;
-        int az = Math.abs(dz) << 1;
+        ax = Math.abs(dx) << 1;
+        ay = Math.abs(dy) << 1;
+        az = Math.abs(dz) << 1;
+        
+        sx = zsgn(dx);
+        sy = zsgn(dy);
+        sz = zsgn(dz);        
         
         if(ax >= Math.max(ay, az)) {
             return xDominant(start, end);
         } else if(ay >= Math.max(ax, az)) {
             return yDominant(start, end);
-        } else {
-            return zDominant(start, end);
-        }
+        } 
+        return zDominant(start, end);
     }
 
     private List<BlockPos> xDominant(BlockPos start, BlockPos end) {
-        int dx = end.getX() - start.getX();
-        int dy = end.getY() - start.getY();
-        int dz = end.getZ() - start.getZ();
-        
-        int ax = Math.abs(dx) << 1;
-        int ay = Math.abs(dy) << 1;
-        int az = Math.abs(dz) << 1;
-        
-        int sx = zsgn(dx);
-        int sy = zsgn(dy);
-        int sz = zsgn(dz);
-        
         int x = start.getX();
         int y = start.getY();
         int z = start.getZ();
@@ -100,14 +98,8 @@ public class Line implements DefaultCommand {
         int zd = az - (ax >> 1);
         
         List<BlockPos> posLt = new ArrayList<>();
-        
-        boolean loop = true;
-        while(loop) {
+        do {
             posLt.add(new BlockPos(x, y, z));
-            
-            if(x == end.getX()) {
-                loop = false;
-            }
             if(yd >= 0) {
                 y += sy;
                 yd -= ax;
@@ -119,23 +111,11 @@ public class Line implements DefaultCommand {
             x += sx;
             yd += ay;
             zd += az;
-        }
+        } while(x != end.getX());
         return posLt;
     }
 
     private List<BlockPos> yDominant(BlockPos start, BlockPos end) {
-        int dx = end.getX() - start.getX();
-        int dy = end.getY() - start.getY();
-        int dz = end.getZ() - start.getZ();
-        
-        int ax = Math.abs(dx) << 1;
-        int ay = Math.abs(dy) << 1;
-        int az = Math.abs(dz) << 1;
-        
-        int sx = zsgn(dx);
-        int sy = zsgn(dy);
-        int sz = zsgn(dz);
-        
         int x = start.getX();
         int y = start.getY();
         int z = start.getZ();
@@ -144,14 +124,8 @@ public class Line implements DefaultCommand {
         int zd = az - (ay >> 1);
         
         List<BlockPos> posLt = new ArrayList<>();
-        
-        boolean loop = true;
-        while(loop) {
+        do {
             posLt.add(new BlockPos(x, y, z));
-            
-            if(y == end.getY()) {
-                loop = false;
-            }
             if(xd >= 0) {
                 x += sx;
                 xd -= ay;
@@ -163,23 +137,11 @@ public class Line implements DefaultCommand {
             y += sy;
             xd += ax;
             zd += az;
-        }
+        } while(y != end.getY());
         return posLt;
     }
     
     private List<BlockPos> zDominant(BlockPos start, BlockPos end) {
-        int dx = end.getX() - start.getX();
-        int dy = end.getY() - start.getY();
-        int dz = end.getZ() - start.getZ();
-        
-        int ax = Math.abs(dx) << 1;
-        int ay = Math.abs(dy) << 1;
-        int az = Math.abs(dz) << 1;
-        
-        int sx = zsgn(dx);
-        int sy = zsgn(dy);
-        int sz = zsgn(dz);
-        
         int x = start.getX();
         int y = start.getY();
         int z = start.getZ();
@@ -188,14 +150,8 @@ public class Line implements DefaultCommand {
         int yd = ay - (az >> 1);
         
         List<BlockPos> posLt = new ArrayList<>();
-        
-        boolean loop = true;
-        while(loop) {
+        do {
             posLt.add(new BlockPos(x, y, z));
-            
-            if(z == end.getZ()) {
-                loop = false;
-            }
             if(xd >= 0) {
                 x += sx;
                 xd -= az;
@@ -207,7 +163,7 @@ public class Line implements DefaultCommand {
             z += sz;
             xd += ax;
             yd += ay;
-        }
+        } while(z != end.getZ());
         return posLt;
     }    
     
