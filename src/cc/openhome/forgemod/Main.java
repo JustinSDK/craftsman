@@ -5,6 +5,7 @@ import cc.openhome.forgemod.command.building.Pyramid;
 import cc.openhome.forgemod.command.building.Stairs;
 import cc.openhome.forgemod.command.drawing.Cube;
 import cc.openhome.forgemod.command.drawing.Frame;
+import cc.openhome.forgemod.command.drawing.Line;
 import cc.openhome.forgemod.command.drawing.Turtle;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -30,8 +31,8 @@ public class Main {
         event.registerServerCommand(new Maze());
 
         event.registerServerCommand(new Turtle());
-        
         event.registerServerCommand(new Cube());
         event.registerServerCommand(new Frame());
+        event.registerServerCommand(new Line());
     }
 }
