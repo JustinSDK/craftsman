@@ -276,28 +276,24 @@ public class Maze implements DefaultCommand {
         
         int offset = width - wallThickness;
         
-        String[] upWallArgs = toCubeArgs(
-            new FstPos(origin.ux + offset, origin.uy, origin.uz), 
-            new FstDimension(wallThickness, width, wallHeight)
-            
-        );
-        String[] rightWallArgs = toCubeArgs(
-            new FstPos(origin.ux, origin.uy, origin.uz + offset), 
-            new FstDimension(width, wallThickness, wallHeight)
-        );
-        String[] cornerWallArgs =  toCubeArgs(
-            new FstPos(origin.ux + offset, origin.uy, origin.uz + offset), 
-            new FstDimension(wallThickness, wallThickness, wallHeight)
-        );
-        
         if(wallType == WallType.UP || wallType == WallType.UP_RIGHT) {
-            cube.doCommandWithoutCheckingBlock(sender, upWallArgs);
+            cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(
+                    new FstPos(origin.ux + offset, origin.uy, origin.uz), 
+                    new FstDimension(wallThickness, width, wallHeight)
+                    
+                ));
         }
         if(wallType == WallType.RIGHT || wallType == WallType.UP_RIGHT) {
-            cube.doCommandWithoutCheckingBlock(sender, rightWallArgs); 
+            cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(
+                    new FstPos(origin.ux, origin.uy, origin.uz + offset), 
+                    new FstDimension(width, wallThickness, wallHeight)
+                )); 
         }
         if(wallType == WallType.NONE) {
-            cube.doCommandWithoutCheckingBlock(sender, cornerWallArgs); 
+            cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(
+                    new FstPos(origin.ux + offset, origin.uy, origin.uz + offset), 
+                    new FstDimension(wallThickness, wallThickness, wallHeight)
+                )); 
         }
     }
     
