@@ -2,6 +2,7 @@ package cc.openhome.forgemod.command.drawing;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import cc.openhome.forgemod.command.Blocker;
 import cc.openhome.forgemod.command.Commons;
@@ -41,21 +42,22 @@ public class Cube implements DefaultCommand {
     }
 
     public void doCommandWithoutCheckingBlock(ICommandSender sender, String[] args) {
+        Map<String, Integer> argsInt = Commons.argsToInteger(
+                new String[] {"ux", "uy", "uz", "rows", "columns", "layers"}, 
+                args
+        );
+        
         EntityPlayer player = (EntityPlayer) sender;
         Item heldItem = player.getHeldItemMainhand().getItem();
-
+        
         // Player is always regarded as facing to EAST from 1st person perspective. 
 
         BlockPos origin = Commons.origin(
             player, 
-            Integer.parseInt(args[0]), 
-            Integer.parseInt(args[1]), 
-            Integer.parseInt(args[2])
+            argsInt.get("ux"), 
+            argsInt.get("uy"), 
+            argsInt.get("uz")
          );
-        
-        int rows = Integer.parseInt(args[3]);
-        int columns = Integer.parseInt(args[4]); 
-        int layers = Integer.parseInt(args[5]);
         
         Walker position = new Walker(
             player.getAdjustedHorizontalFacing(), 
@@ -68,7 +70,7 @@ public class Cube implements DefaultCommand {
                     player.getEntityWorld()
                           .setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
                 }, 
-                rows, columns, layers
+                argsInt.get("rows"), argsInt.get("columns"), argsInt.get("layers")
             );
     }
 }

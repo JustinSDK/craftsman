@@ -1,6 +1,7 @@
 package cc.openhome.forgemod.command.building;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -191,25 +192,26 @@ public class Maze implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {      
-        int ux = Integer.valueOf(args[0]);
-        int uy = Integer.valueOf(args[1]);
-        int uz = Integer.valueOf(args[2]);
+        Map<String, Integer> argsInt = Commons.argsToInteger(
+                new String[] {"ux", "uy", "uz", "rows", "columns", "gridWidth", "wallThickness", "wallHeight"}, 
+                args
+        );
         
-        int rows = Integer.valueOf(args[3]);
-        int columns = Integer.valueOf(args[4]);
-        
-        int gridWidth = Integer.valueOf(args[5]);
-        int wallThickness = Integer.valueOf(args[6]);
-        int wallHeight = Integer.valueOf(args[7]);  
+        int rows = argsInt.get("rows");
+        int columns = argsInt.get("columns");
+       
+        int gridWidth = argsInt.get("gridWidth");
+        int wallThickness = argsInt.get("wallThickness");
+        int wallHeight = argsInt.get("wallHeight");  
         
         Commons.runIfAirOrBlockHeld(sender, 
             () -> {  // build maze
                 FstDimension mazeDimension = new FstDimension(rows, columns, wallHeight);
                 
                 buildMaze(sender, 
-                    new FstPos(ux, uy, uz),
+                    new FstPos(argsInt.get("ux"), argsInt.get("uy"), argsInt.get("uz")),
                     mazeDimension,
-                    gridWidth, wallThickness
+                    argsInt.get("gridWidth"), argsInt.get("wallThickness")
                 );
             }, 
             () -> { // clean maze

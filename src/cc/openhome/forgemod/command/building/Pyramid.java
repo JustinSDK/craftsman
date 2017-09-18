@@ -2,6 +2,7 @@ package cc.openhome.forgemod.command.building;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
@@ -38,20 +39,16 @@ public class Pyramid implements DefaultCommand {
     }
     
     @Override
-    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
+    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {             
+        Map<String, Integer> argsInt = Commons.argsToInteger(
+                new String[] {"ux", "uy", "uz", "width", "height"}, args);
+        
         EntityPlayer player = (EntityPlayer) sender;
 
-        int ux = Integer.parseInt(args[0]);
-        int uy = Integer.parseInt(args[1]);
-        int uz = Integer.parseInt(args[2]);
-        
-        int width = Integer.parseInt(args[3]);
-        int height = Integer.parseInt(args[4]);
-        
         Commons.runIfAirOrBlockHeld(sender, () -> {
             buildPyramid(player, 
-                new FstPos(ux, uy, uz), 
-                new FstDimension(width, height)
+                new FstPos(argsInt.get("ux"), argsInt.get("uy"), argsInt.get("uz")), 
+                new FstDimension(argsInt.get("width"), argsInt.get("height"))
             );
         });
     }

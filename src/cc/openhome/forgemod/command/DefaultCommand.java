@@ -1,7 +1,9 @@
 package cc.openhome.forgemod.command;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;

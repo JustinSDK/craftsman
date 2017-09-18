@@ -2,6 +2,7 @@ package cc.openhome.forgemod.command.drawing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
@@ -35,21 +36,26 @@ public class Line implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
+        Map<String, Integer> argsInt = Commons.argsToInteger(
+                new String[] {"ux1", "uy1", "uz1", "ux2", "uy2", "uz2"}, 
+                args
+        );
+        
         EntityPlayer player = (EntityPlayer) sender;
 
         Commons.runIfAirOrBlockHeld(sender, () -> {
             Item heldItem = player.getHeldItemMainhand().getItem();
 
             BlockPos start = toBlockPos(new FstPos(
-                    Integer.parseInt(args[0]),
-                    Integer.parseInt(args[1]),
-                    Integer.parseInt(args[2])
+                    argsInt.get("ux1"),
+                    argsInt.get("uy1"),
+                    argsInt.get("uz1")
                 ), player);
             
             BlockPos end = toBlockPos(new FstPos(
-                    Integer.parseInt(args[3]),
-                    Integer.parseInt(args[4]),
-                    Integer.parseInt(args[5])
+                    argsInt.get("ux2"),
+                    argsInt.get("uy2"),
+                    argsInt.get("uz2")
                 ), player);      
             
             
