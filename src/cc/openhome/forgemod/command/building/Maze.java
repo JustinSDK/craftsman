@@ -162,15 +162,15 @@ public class Maze implements DefaultCommand {
             if(!currentVisitableDirs.isEmpty()) {
                 Collections.shuffle(currentVisitableDirs);
                 
-                for(Dir dir : currentVisitableDirs) {
+                currentVisitableDirs.forEach(dir -> {
                     int nxtI = nextI(dir, i);
                     int nxtJ = nextJ(dir, j);
                     // we need to check again when trying next dir
                     if(isVisitable(nxtI, nxtJ)) {
                         breakWallBeforeGoing(dir, i, j);
                         visit(nxtI, nxtJ);
-                    }
-                }
+                    }                    
+                });
             }
         }
     }

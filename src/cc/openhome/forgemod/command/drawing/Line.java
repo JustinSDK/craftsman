@@ -52,10 +52,11 @@ public class Line implements DefaultCommand {
                     Integer.parseInt(args[5])
                 ), player);      
             
-            for(BlockPos pos : posList(start, end)) {
+            
+            posList(start, end).forEach(pos -> {
                 player.getEntityWorld()
                       .setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
-            }
+            });
         });
     }
     
