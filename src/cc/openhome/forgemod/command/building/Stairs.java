@@ -29,13 +29,12 @@ public class Stairs implements DefaultCommand {
         return String.format("/%s <up|down> <ux> <uy> <uz> <height> <width>", getName());
     }
 
+    public int lengthOfArgs() {
+        return 6;
+    }
+    
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (args.length != 6) {
-            Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
-            return;
-        }
-        
+    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
         Commons.runIfAirOrStairsHeld(sender, () -> {           
             int ux = Integer.parseInt(args[1]);
             int uy = Integer.parseInt(args[2]);

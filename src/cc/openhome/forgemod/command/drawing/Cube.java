@@ -29,17 +29,12 @@ public class Cube implements DefaultCommand {
         return String.format("/%s <ux> <uy> <uz> <rows> <columns> <layers>", getName());
     }
 
-    @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (args.length != 6) {
-            Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
-            return;
-        }
-        
-        doCommand(sender, args);
+    public int lengthOfArgs() {
+        return 6;
     }
-
-    public void doCommand(ICommandSender sender, String[] args) {
+    
+    @Override
+    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
         Commons.runIfAirOrBlockHeld(sender, () -> {
             doCommandWithoutCheckingBlock(sender, args); 
         });

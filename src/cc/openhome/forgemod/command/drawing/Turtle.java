@@ -57,12 +57,12 @@ public class Turtle implements DefaultCommand {
 
     private TurtleHandler trutle = new TurtleHandler();
 
+    public int lengthOfArgs() {
+        return 1;
+    }
+    
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (args.length != 1) {
-            Commons.sendMessageTo((EntityPlayer) sender, getUsage(sender));
-        }
-
+    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
         if ("on".equals(args[0])) {
             MinecraftForge.EVENT_BUS.register(trutle);
         } else {

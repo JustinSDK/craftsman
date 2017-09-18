@@ -33,16 +33,14 @@ public class Pyramid implements DefaultCommand {
     public String getUsage(ICommandSender sender) {
         return String.format("/%s <ux> <uy> <uz> <width> <height>", getName());
     }
-
+    public int lengthOfArgs() {
+        return 5;
+    }
+    
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
         EntityPlayer player = (EntityPlayer) sender;
 
-        if (args.length != 5) {
-            player.sendMessage(new TextComponentString(getUsage(sender)));
-            return;
-        }
-        
         int ux = Integer.parseInt(args[0]);
         int uy = Integer.parseInt(args[1]);
         int uz = Integer.parseInt(args[2]);

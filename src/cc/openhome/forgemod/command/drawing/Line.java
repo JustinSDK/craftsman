@@ -29,15 +29,14 @@ public class Line implements DefaultCommand {
         return String.format("/%s <ux1> <uy1> <uz1> <ux2> <uy2> <uz2>", getName());
     } 
 
+    public int lengthOfArgs() {
+        return 6;
+    }
+    
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
         EntityPlayer player = (EntityPlayer) sender;
 
-        if (args.length != 6) {
-            player.sendMessage(new TextComponentString(getUsage(sender)));
-            return;
-        }
-        
         Commons.runIfAirOrBlockHeld(sender, () -> {
             Item heldItem = player.getHeldItemMainhand().getItem();
 

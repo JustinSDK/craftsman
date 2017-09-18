@@ -3,12 +3,28 @@ package cc.openhome.forgemod.command;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
 public interface DefaultCommand extends ICommand {
+    int lengthOfArgs();
+    
+    @Override
+    default void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
+        if (args.length != lengthOfArgs()) {
+            Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
+        } 
+        else {
+            doCommand(server, sender, args);
+        }
+    }
+    
+    void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException;
+    
     @Override
     default int compareTo(ICommand o) {
         return 0;

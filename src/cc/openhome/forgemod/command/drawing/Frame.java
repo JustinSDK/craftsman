@@ -28,13 +28,12 @@ public class Frame implements DefaultCommand {
         return String.format("/%s <ht|vt> <ux> <uy> <uz> <rows> <columns> <thickness>", getName());
     }
 
+    public int lengthOfArgs() {
+        return 7;
+    }
+    
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (args.length != 7) {
-            Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
-            return;
-        }
-        
+    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
         Commons.runIfAirOrBlockHeld(sender, () -> {
             if("ht".equals(args[0])) {
                 horizontalFrame(server, sender, args);

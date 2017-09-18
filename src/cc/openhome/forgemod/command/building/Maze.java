@@ -185,13 +185,12 @@ public class Maze implements DefaultCommand {
         return String.format("/%s <ux> <uy> <uz> <rows> <columns> <grid_width> <wall_thickness> <wall_height>", getName());
     }
 
+    public int lengthOfArgs() {
+        return 8;
+    }
+    
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
-        if (args.length != 8) {
-            Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
-            return;
-        }    
-        
+    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {      
         int ux = Integer.valueOf(args[0]);
         int uy = Integer.valueOf(args[1]);
         int uz = Integer.valueOf(args[2]);
