@@ -1,8 +1,10 @@
 package cc.openhome.forgemod.command.drawing;
 
+
+import static cc.openhome.forgemod.command.Commons.*;
+
 import java.util.Map;
 
-import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstPos;
 import net.minecraft.block.Block;
@@ -32,10 +34,10 @@ public class Circle implements DefaultCommand {
 
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {        
-        Commons.runIfAirOrBlockHeld(sender, () -> {
-            Map<String, Integer> argsInt = Commons.argsToInteger(
+        runIfAirOrBlockHeld(sender, () -> {
+            Map<String, Integer> argsInt = argsToInteger(
                     new String[] {"ux", "uy", "uz", "radius"}, 
-                    Commons.copyArgs(args, 1)
+                    copyArgs(args, 1)
             );
             
             EntityPlayer player = (EntityPlayer) sender;
@@ -66,10 +68,10 @@ public class Circle implements DefaultCommand {
         int z = 0;
         int y = radius;
         
-        buildBlock(new FstPos(x0, y0 + radius, z0), player);
-        buildBlock(new FstPos(x0, y0 - radius, z0), player);
-        buildBlock(new FstPos(x0, y0, z0 + radius), player);
-        buildBlock(new FstPos(x0, y0, z0 - radius), player);
+        buildHeldBlock(new FstPos(x0, y0 + radius, z0), player);
+        buildHeldBlock(new FstPos(x0, y0 - radius, z0), player);
+        buildHeldBlock(new FstPos(x0, y0, z0 + radius), player);
+        buildHeldBlock(new FstPos(x0, y0, z0 - radius), player);
         
         while(z < y) {
             if(f >= 0) {
@@ -81,14 +83,14 @@ public class Circle implements DefaultCommand {
             ddf_z += 2;
             f += ddf_z;  
             
-            buildBlock(new FstPos(x0, y0 + y, z0 + z), player);
-            buildBlock(new FstPos(x0 , y0 + y, z0 - z), player);
-            buildBlock(new FstPos(x0, y0 - y, z0 + z), player);
-            buildBlock(new FstPos(x0, y0 - y, z0 - z), player);
-            buildBlock(new FstPos(x0, y0 + z, z0 + y), player);
-            buildBlock(new FstPos(x0, y0 + z, z0 - y), player);
-            buildBlock(new FstPos(x0, y0 - z, z0 + y), player);
-            buildBlock(new FstPos(x0, y0 - z, z0 - y), player);
+            buildHeldBlock(new FstPos(x0, y0 + y, z0 + z), player);
+            buildHeldBlock(new FstPos(x0 , y0 + y, z0 - z), player);
+            buildHeldBlock(new FstPos(x0, y0 - y, z0 + z), player);
+            buildHeldBlock(new FstPos(x0, y0 - y, z0 - z), player);
+            buildHeldBlock(new FstPos(x0, y0 + z, z0 + y), player);
+            buildHeldBlock(new FstPos(x0, y0 + z, z0 - y), player);
+            buildHeldBlock(new FstPos(x0, y0 - z, z0 + y), player);
+            buildHeldBlock(new FstPos(x0, y0 - z, z0 - y), player);
         }
     }
     
@@ -103,10 +105,10 @@ public class Circle implements DefaultCommand {
         int x = 0;
         int z = radius;
         
-        buildBlock(new FstPos(x0, y0, z0 + radius), player);
-        buildBlock(new FstPos(x0, y0, z0 - radius), player);
-        buildBlock(new FstPos(x0 + radius, y0, z0), player);
-        buildBlock(new FstPos(x0 - radius, y0, z0), player);
+        buildHeldBlock(new FstPos(x0, y0, z0 + radius), player);
+        buildHeldBlock(new FstPos(x0, y0, z0 - radius), player);
+        buildHeldBlock(new FstPos(x0 + radius, y0, z0), player);
+        buildHeldBlock(new FstPos(x0 - radius, y0, z0), player);
         
         while(x < z) {
             if(f >= 0) {
@@ -118,24 +120,15 @@ public class Circle implements DefaultCommand {
             ddf_x += 2;
             f += ddf_x;
 
-            buildBlock(new FstPos(x0 + x, y0, z0 + z), player);
-            buildBlock(new FstPos(x0 - x, y0, z0 + z), player);
-            buildBlock(new FstPos(x0 + x, y0, z0 - z), player);
-            buildBlock(new FstPos(x0 - x, y0, z0 - z), player);
-            buildBlock(new FstPos(x0 + z, y0, z0 + x), player);
-            buildBlock(new FstPos(x0 - z, y0, z0 + x), player);
-            buildBlock(new FstPos(x0 + z, y0, z0 - x), player);
-            buildBlock(new FstPos(x0 - z, y0, z0 - x), player);
+            buildHeldBlock(new FstPos(x0 + x, y0, z0 + z), player);
+            buildHeldBlock(new FstPos(x0 - x, y0, z0 + z), player);
+            buildHeldBlock(new FstPos(x0 + x, y0, z0 - z), player);
+            buildHeldBlock(new FstPos(x0 - x, y0, z0 - z), player);
+            buildHeldBlock(new FstPos(x0 + z, y0, z0 + x), player);
+            buildHeldBlock(new FstPos(x0 - z, y0, z0 + x), player);
+            buildHeldBlock(new FstPos(x0 + z, y0, z0 - x), player);
+            buildHeldBlock(new FstPos(x0 - z, y0, z0 - x), player);
             
         }
     }    
-    
-    private void buildBlock(FstPos fstPos, EntityPlayer player) {
-        BlockPos pos = Commons.toBlockPos(fstPos, player);
-        
-        Item heldItem = player.getHeldItemMainhand().getItem();
-        player.getEntityWorld()
-            .setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());  
-    }
-
 }

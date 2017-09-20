@@ -1,11 +1,11 @@
 package cc.openhome.forgemod.command.drawing;
 
+import static cc.openhome.forgemod.command.Commons.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import cc.openhome.forgemod.command.Blocker;
-import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
 import cc.openhome.forgemod.command.Walker;
@@ -36,23 +36,20 @@ public class Cube implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
-        Commons.runIfAirOrBlockHeld(sender, () -> {
+        runIfAirOrBlockHeld(sender, () -> {
             doCommandWithoutCheckingBlock(sender, args); 
         });
     }
 
     public void doCommandWithoutCheckingBlock(ICommandSender sender, String[] args) {
-        Map<String, Integer> argsInt = Commons.argsToInteger(
+        Map<String, Integer> argsInt = argsToInteger(
                 new String[] {"ux", "uy", "uz", "rows", "columns", "layers"}, 
                 args
         );
         
         EntityPlayer player = (EntityPlayer) sender;
-        Item heldItem = player.getHeldItemMainhand().getItem();
-        
-        // Player is always regarded as facing to EAST from 1st person perspective. 
-
-        BlockPos origin = Commons.origin(
+      
+        BlockPos origin = origin(
             player, 
             argsInt.get("ux"), 
             argsInt.get("uy"), 
@@ -65,11 +62,8 @@ public class Cube implements DefaultCommand {
         );
         
         Blocker.cubeWith(
-                position, 
-                pos -> {
-                    player.getEntityWorld()
-                          .setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
-                }, 
+                position,
+                pos -> buildHeldBlock(pos, player), 
                 argsInt.get("rows"), argsInt.get("columns"), argsInt.get("layers")
             );
     }

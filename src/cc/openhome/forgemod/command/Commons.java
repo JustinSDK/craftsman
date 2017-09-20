@@ -81,5 +81,15 @@ public class Commons {
     public static BlockPos toBlockPos(FstPos pos, EntityPlayer player) {
         Walker walker = new Walker(player.getAdjustedHorizontalFacing(), player.getPosition());
         return walker.forward(pos.ux).up(pos.uy).right(pos.uz).getBlockPos();
+    }
+     
+    public static void buildHeldBlock(FstPos fstPos, EntityPlayer player) {
+        buildHeldBlock(toBlockPos(fstPos, player), player);
+    }
+    
+    public static void buildHeldBlock(BlockPos pos, EntityPlayer player) {
+        Item heldItem = player.getHeldItemMainhand().getItem();
+        player.getEntityWorld()
+            .setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());  
     }    
 }

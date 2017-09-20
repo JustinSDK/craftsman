@@ -1,5 +1,7 @@
 package cc.openhome.forgemod.command.drawing;
 
+import static cc.openhome.forgemod.command.Commons.buildHeldBlock;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +45,6 @@ public class Line implements DefaultCommand {
             );            
             
             EntityPlayer player = (EntityPlayer) sender;
-            Item heldItem = player.getHeldItemMainhand().getItem();
 
             BlockPos start = Commons.toBlockPos(new FstPos(
                     argsInt.get("ux1"),
@@ -58,10 +59,7 @@ public class Line implements DefaultCommand {
                 ), player);      
             
             
-            posList(start, end).forEach(pos -> {
-                player.getEntityWorld()
-                      .setBlockState(pos, Block.getBlockFromItem(heldItem).getDefaultState());
-            });
+            posList(start, end).forEach(pos -> buildHeldBlock(pos, player));
         });
     }
     
