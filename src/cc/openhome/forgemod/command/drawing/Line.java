@@ -1,12 +1,12 @@
 package cc.openhome.forgemod.command.drawing;
 
-import static cc.openhome.forgemod.command.Commons.buildHeldBlock;
+import static cc.openhome.forgemod.command.Commons.*;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
 import cc.openhome.forgemod.command.FstPos;
@@ -38,21 +38,21 @@ public class Line implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {             
-        Commons.runIfAirOrBlockHeld(sender, () -> {
-            Map<String, Integer> argsInt = Commons.argsToInteger(
+        runIfAirOrBlockHeld(sender, () -> {
+            Map<String, Integer> argsInt = argsToInteger(
                     new String[] {"ux1", "uy1", "uz1", "ux2", "uy2", "uz2"}, 
                     args
             );            
             
             EntityPlayer player = (EntityPlayer) sender;
 
-            BlockPos start = Commons.toBlockPos(new FstPos(
+            BlockPos start = toBlockPos(new FstPos(
                     argsInt.get("ux1"),
                     argsInt.get("uy1"),
                     argsInt.get("uz1")
                 ), player);
             
-            BlockPos end = Commons.toBlockPos(new FstPos(
+            BlockPos end = toBlockPos(new FstPos(
                     argsInt.get("ux2"),
                     argsInt.get("uy2"),
                     argsInt.get("uz2")

@@ -1,9 +1,11 @@
 package cc.openhome.forgemod.command.building;
 
+import static cc.openhome.forgemod.command.Commons.*;
 import java.util.Map;
 
+
 import cc.openhome.forgemod.command.Blocker;
-import cc.openhome.forgemod.command.Commons;
+
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.Walker;
 import net.minecraft.block.Block;
@@ -38,17 +40,17 @@ public class Stairs implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
-        Commons.runIfAirOrStairsHeld(sender, () -> {     
-            Map<String, Integer> argsInt = Commons.argsToInteger(
+        runIfAirOrStairsHeld(sender, () -> {     
+            Map<String, Integer> argsInt = argsToInteger(
                 new String[] {"ux", "uy", "uz", "height", "width"}, 
-                Commons.copyArgs(args, 1)
+                copyArgs(args, 1)
             );
 
             int height = argsInt.get("height");
             int width = argsInt.get("width");
             
             EntityPlayer player = (EntityPlayer) sender;
-            BlockPos origin = Commons.origin(player, argsInt.get("ux"), argsInt.get("uy"), argsInt.get("uz"));
+            BlockPos origin = origin(player, argsInt.get("ux"), argsInt.get("uy"), argsInt.get("uz"));
             Item heldItem = player.getHeldItemMainhand().getItem();
             Block heldBlock = Block.getBlockFromItem(heldItem);
             

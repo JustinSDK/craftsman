@@ -1,12 +1,13 @@
 package cc.openhome.forgemod.command.building;
 
+import static cc.openhome.forgemod.command.Commons.*;
+
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
 import cc.openhome.forgemod.command.FstPos;
@@ -192,7 +193,7 @@ public class Maze implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {      
-        Map<String, Integer> argsInt = Commons.argsToInteger(
+        Map<String, Integer> argsInt = argsToInteger(
                 new String[] {"ux", "uy", "uz", "rows", "columns", "gridWidth", "wallThickness", "wallHeight"}, 
                 args
         );
@@ -204,7 +205,7 @@ public class Maze implements DefaultCommand {
         int wallThickness = argsInt.get("wallThickness");
         int wallHeight = argsInt.get("wallHeight");  
         
-        Commons.runIfAirOrBlockHeld(sender, 
+        runIfAirOrBlockHeld(sender, 
             () -> {  // build maze
                 FstDimension mazeDimension = new FstDimension(rows, columns, wallHeight);
                 

@@ -1,10 +1,9 @@
 package cc.openhome.forgemod.command.drawing;
 
+import static cc.openhome.forgemod.command.Commons.*;
+
 import java.util.Arrays;
-
 import java.util.List;
-
-import cc.openhome.forgemod.command.Commons;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.Walker;
 import net.minecraft.block.Block;
