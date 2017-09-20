@@ -35,24 +35,23 @@ public class Line implements DefaultCommand {
     }
     
     @Override
-    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
-        Map<String, Integer> argsInt = Commons.argsToInteger(
-                new String[] {"ux1", "uy1", "uz1", "ux2", "uy2", "uz2"}, 
-                args
-        );
-        
-        EntityPlayer player = (EntityPlayer) sender;
-
+    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {             
         Commons.runIfAirOrBlockHeld(sender, () -> {
+            Map<String, Integer> argsInt = Commons.argsToInteger(
+                    new String[] {"ux1", "uy1", "uz1", "ux2", "uy2", "uz2"}, 
+                    args
+            );            
+            
+            EntityPlayer player = (EntityPlayer) sender;
             Item heldItem = player.getHeldItemMainhand().getItem();
 
-            BlockPos start = toBlockPos(new FstPos(
+            BlockPos start = Commons.toBlockPos(new FstPos(
                     argsInt.get("ux1"),
                     argsInt.get("uy1"),
                     argsInt.get("uz1")
                 ), player);
             
-            BlockPos end = toBlockPos(new FstPos(
+            BlockPos end = Commons.toBlockPos(new FstPos(
                     argsInt.get("ux2"),
                     argsInt.get("uy2"),
                     argsInt.get("uz2")
@@ -172,11 +171,6 @@ public class Line implements DefaultCommand {
         } while(z != end.getZ());
         return posLt;
     }    
-    
-    private BlockPos toBlockPos(FstPos pos, EntityPlayer player) {
-        Walker walker = new Walker(player.getAdjustedHorizontalFacing(), player.getPosition());
-        return walker.forward(pos.ux).up(pos.uy).right(pos.uz).getBlockPos();
-    }
     
     private int zsgn(int a) {
         if(a < 0) {

@@ -3,6 +3,7 @@ package cc.openhome.forgemod;
 import cc.openhome.forgemod.command.building.Maze;
 import cc.openhome.forgemod.command.building.Pyramid;
 import cc.openhome.forgemod.command.building.Stairs;
+import cc.openhome.forgemod.command.drawing.Circle;
 import cc.openhome.forgemod.command.drawing.Cube;
 import cc.openhome.forgemod.command.drawing.Frame;
 import cc.openhome.forgemod.command.drawing.Line;
@@ -34,5 +35,6 @@ public class Main {
         event.registerServerCommand(new Cube());
         event.registerServerCommand(new Frame());
         event.registerServerCommand(new Line());
+        event.registerServerCommand(new Circle());
     }
 }

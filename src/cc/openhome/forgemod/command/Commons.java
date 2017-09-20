@@ -77,4 +77,9 @@ public class Commons {
     public static String[] copyArgs(String[] args, int from) {
         return (String[]) Arrays.copyOfRange(args, from, args.length);
     }
+    
+    public static BlockPos toBlockPos(FstPos pos, EntityPlayer player) {
+        Walker walker = new Walker(player.getAdjustedHorizontalFacing(), player.getPosition());
+        return walker.forward(pos.ux).up(pos.uy).right(pos.uz).getBlockPos();
+    }    
 }
