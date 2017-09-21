@@ -15,49 +15,13 @@ import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
-public class Circle implements DefaultCommand {
-
+public class Circle extends AbstractCircle {
     @Override
     public String getName() {
         return "circle";
     }
-
-    @Override
-    public String getUsage(ICommandSender sender) {
-        return String.format("/%s <ht|vt> <ux> <uy> <uz> <radius>", getName());
-    }
-
-    @Override
-    public int lengthOfArgs() {
-        return 5;
-    }
-
-    @Override
-    public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {        
-        runIfAirOrBlockHeld(sender, () -> {
-            Map<String, Integer> argsInt = argsToInteger(
-                    new String[] {"ux", "uy", "uz", "radius"}, 
-                    copyArgs(args, 1)
-            );
-            
-            EntityPlayer player = (EntityPlayer) sender;
-            FstPos center = new FstPos(
-                    argsInt.get("ux"),
-                    argsInt.get("uy"),
-                    argsInt.get("uz")
-                );
-            
-            if("vt".equals(args[0])) {
-                buildVerticalCircle(player, center, argsInt.get("radius"));
-            } else {
-                buildHorizontalCircle(player, center, argsInt.get("radius"));
-            }
-        });       
-                
-
-    }
     
-    private void buildVerticalCircle(EntityPlayer player, FstPos center, int radius) {
+    protected void buildVerticalCircle(EntityPlayer player, FstPos center, int radius) {
         int x0 = center.ux;
         int y0 = center.uy;
         int z0 = center.uz;
@@ -94,7 +58,7 @@ public class Circle implements DefaultCommand {
         }
     }
     
-    private void buildHorizontalCircle(EntityPlayer player, FstPos center, int radius) {
+    protected void buildHorizontalCircle(EntityPlayer player, FstPos center, int radius) {
         int x0 = center.ux;
         int y0 = center.uy;
         int z0 = center.uz;
@@ -128,7 +92,6 @@ public class Circle implements DefaultCommand {
             buildHeldBlock(new FstPos(x0 - z, y0, z0 + x), player);
             buildHeldBlock(new FstPos(x0 + z, y0, z0 - x), player);
             buildHeldBlock(new FstPos(x0 - z, y0, z0 - x), player);
-            
         }
     }    
 }
