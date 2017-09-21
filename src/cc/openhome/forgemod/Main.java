@@ -8,6 +8,7 @@ import cc.openhome.forgemod.command.drawing.Cube;
 import cc.openhome.forgemod.command.drawing.FillCircle;
 import cc.openhome.forgemod.command.drawing.Frame;
 import cc.openhome.forgemod.command.drawing.Line;
+import cc.openhome.forgemod.command.drawing.Sphere;
 import cc.openhome.forgemod.command.drawing.Turtle;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -38,5 +39,6 @@ public class Main {
         event.registerServerCommand(new Line());
         event.registerServerCommand(new Circle());
         event.registerServerCommand(new FillCircle());
+        event.registerServerCommand(new Sphere());
     }
 }
