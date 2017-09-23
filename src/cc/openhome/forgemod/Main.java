@@ -5,6 +5,7 @@ import cc.openhome.forgemod.command.building.Pyramid;
 import cc.openhome.forgemod.command.building.Stairs;
 import cc.openhome.forgemod.command.drawing.Circle;
 import cc.openhome.forgemod.command.drawing.Cube;
+import cc.openhome.forgemod.command.drawing.Face;
 import cc.openhome.forgemod.command.drawing.FillCircle;
 import cc.openhome.forgemod.command.drawing.Frame;
 import cc.openhome.forgemod.command.drawing.Line;
@@ -40,5 +41,6 @@ public class Main {
         event.registerServerCommand(new Circle());
         event.registerServerCommand(new FillCircle());
         event.registerServerCommand(new Sphere());
+        event.registerServerCommand(new Face());
     }
 }

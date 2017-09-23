@@ -28,7 +28,7 @@ public class Frame implements DefaultCommand {
         return String.format("/%s <ht|vt> <ux> <uy> <uz> <rows> <columns> <thickness>", getName());
     }
 
-    public int lengthOfArgs() {
+    public int minLengthOfArgs() {
         return 7;
     }
     

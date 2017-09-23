@@ -22,7 +22,7 @@ public abstract class AbstractCircle implements DefaultCommand {
     }
 
     @Override
-    public int lengthOfArgs() {
+    public int minLengthOfArgs() {
         return 5;
     }
 

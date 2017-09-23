@@ -56,7 +56,7 @@ public class Turtle implements DefaultCommand {
 
     private TurtleHandler trutle = new TurtleHandler();
 
-    public int lengthOfArgs() {
+    public int minLengthOfArgs() {
         return 1;
     }
     

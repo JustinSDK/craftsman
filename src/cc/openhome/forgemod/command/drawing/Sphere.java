@@ -26,7 +26,7 @@ public class Sphere implements DefaultCommand {
     }
 
     @Override
-    public int lengthOfArgs() {
+    public int minLengthOfArgs() {
         return 5;
     }
 

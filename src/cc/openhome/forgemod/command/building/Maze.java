@@ -187,7 +187,7 @@ public class Maze implements DefaultCommand {
         return String.format("/%s <ux> <uy> <uz> <rows> <columns> <grid_width> <wall_thickness> <wall_height>", getName());
     }
 
-    public int lengthOfArgs() {
+    public int minLengthOfArgs() {
         return 8;
     }
     

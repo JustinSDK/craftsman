@@ -34,7 +34,7 @@ public class Stairs implements DefaultCommand {
         return String.format("/%s <up|down> <ux> <uy> <uz> <height> <width>", getName());
     }
 
-    public int lengthOfArgs() {
+    public int minLengthOfArgs() {
         return 6;
     }
     

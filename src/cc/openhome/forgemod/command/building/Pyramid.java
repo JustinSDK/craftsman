@@ -35,7 +35,7 @@ public class Pyramid implements DefaultCommand {
     public String getUsage(ICommandSender sender) {
         return String.format("/%s <ux> <uy> <uz> <width> <height>", getName());
     }
-    public int lengthOfArgs() {
+    public int minLengthOfArgs() {
         return 5;
     }
     

@@ -30,7 +30,7 @@ public class Cube implements DefaultCommand {
         return String.format("/%s <ux> <uy> <uz> <rows> <columns> <layers>", getName());
     }
 
-    public int lengthOfArgs() {
+    public int minLengthOfArgs() {
         return 6;
     }
     

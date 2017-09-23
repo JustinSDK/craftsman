@@ -13,11 +13,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 
 public interface DefaultCommand extends ICommand {
-    int lengthOfArgs();
+    int minLengthOfArgs();
     
     @Override
     default void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
-        if (args.length != lengthOfArgs()) {
+        if (args.length < minLengthOfArgs()) {
             Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
         } 
         else {
