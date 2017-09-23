@@ -8,6 +8,7 @@ import static cc.openhome.forgemod.command.Commons.runIfAirOrBlockHeld;
 import java.util.Map;
 
 import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstPos;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -32,13 +33,14 @@ public class Sphere implements DefaultCommand {
 
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        runIfAirOrBlockHeld(sender, () -> {
+        FstPlayer player = new FstPlayer(sender);
+        
+        player.runIfAirOrBlockHeld(() -> {
             Map<String, Integer> argsInt = argsToInteger(
                     new String[] {"ux", "uy", "uz", "radius"}, 
                     copyArgs(args, 1)
             );
             
-            EntityPlayer player = (EntityPlayer) sender;
             FstPos center = new FstPos(
                     argsInt.get("ux"),
                     argsInt.get("uy"),
@@ -53,7 +55,7 @@ public class Sphere implements DefaultCommand {
         });
     }
 
-    private void sphere(EntityPlayer player, FstPos center, int radius) {
+    private void sphere(FstPlayer player, FstPos center, int radius) {
         int x0 = center.ux;
         int y0 = center.uy;
         int z0 = center.uz;
@@ -64,14 +66,14 @@ public class Sphere implements DefaultCommand {
             for(int y = -radius; y < radius; y++) {
                 for(int z = -radius; z < radius; z++) {
                     if(x * x + y * y + z * z < powR) {
-                        buildHeldBlock(new FstPos(x0 + x, y0 + y, z0 + z), player);
+                        player.buildHeldBlock(new FstPos(x0 + x, y0 + y, z0 + z));
                     }
                 }
             }
         }
     }
     
-    private void hollowSphere(EntityPlayer player, FstPos center, int radius) {
+    private void hollowSphere(FstPlayer player, FstPos center, int radius) {
         int x0 = center.ux;
         int y0 = center.uy;
         int z0 = center.uz;
@@ -84,7 +86,7 @@ public class Sphere implements DefaultCommand {
                 for(int z = -radius; z < radius; z++) {
                     int lenPow = x * x + y * y + z * z;
                     if(lenPow < powR && lenPow > powR - doubleR) {
-                        buildHeldBlock(new FstPos(x0 + x, y0 + y, z0 + z), player);
+                        player.buildHeldBlock(new FstPos(x0 + x, y0 + y, z0 + z));
                     }
                 }
             }
