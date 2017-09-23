@@ -34,9 +34,8 @@ public class Sphere implements DefaultCommand {
         FstPlayer player = new FstPlayer(sender);
         
         player.runIfAirOrBlockHeld(() -> {
-            Map<String, Integer> argsInt = argsToInteger(
-                    new String[] {"ux", "uy", "uz", "radius"}, 
-                    copyArgs(args, 1)
+            Map<String, Integer> argsInt = argsToInteger(copyArgs(args, 1), 
+                    "ux", "uy", "uz", "radius"
             );
             
             FstPos center = new FstPos(

@@ -19,7 +19,7 @@ import net.minecraft.util.text.TextComponentString;
 import scala.actors.threadpool.Arrays;
 
 public class Args {
-    public static Map<String, Integer> argsToInteger(String[] argNames, String[] args) {
+    public static Map<String, Integer> argsToInteger(String[] args, String... argNames) {
         Map<String, Integer> argsToInteger = new HashMap<>();
         for(int i = 0; i < argNames.length; i++) {
             argsToInteger.put(argNames[i], Integer.parseInt(args[i]));

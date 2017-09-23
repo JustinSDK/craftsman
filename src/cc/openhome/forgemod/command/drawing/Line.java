@@ -43,9 +43,8 @@ public class Line implements DefaultCommand {
         FstPlayer player = new FstPlayer(sender);
         
         player.runIfAirOrBlockHeld(() -> {
-            Map<String, Integer> argsInt = argsToInteger(
-                    new String[] {"ux1", "uy1", "uz1", "ux2", "uy2", "uz2"}, 
-                    args
+            Map<String, Integer> argsInt = argsToInteger(args,
+                "ux1", "uy1", "uz1", "ux2", "uy2", "uz2"
             );            
             
 

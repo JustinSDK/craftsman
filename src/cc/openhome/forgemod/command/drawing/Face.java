@@ -49,9 +49,8 @@ public class Face implements DefaultCommand {
                player.info("Ready, Use 'face add <ux> <uy> <uz>' to add points.");
             } 
             else if("add".equals(args[0])) {
-                Map<String, Integer> argsInt = argsToInteger(
-                        new String[] {"ux", "uy", "uz"}, 
-                        copyArgs(args, 1)
+                Map<String, Integer> argsInt = argsToInteger(copyArgs(args, 1),
+                    "ux", "uy", "uz"
                 );
                 FstPos facePos = new FstPos(
                         argsInt.get("ux"),

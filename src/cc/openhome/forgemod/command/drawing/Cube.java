@@ -43,9 +43,8 @@ public class Cube implements DefaultCommand {
     }
 
     public void doCommandWithoutCheckingBlock(FstPlayer player, String[] args) {
-        Map<String, Integer> argsInt = argsToInteger(
-                new String[] {"ux", "uy", "uz", "rows", "columns", "layers"}, 
-                args
+        Map<String, Integer> argsInt = argsToInteger(args, 
+                "ux", "uy", "uz", "rows", "columns", "layers"
         );
         
         BlockPos origin = player.origin(

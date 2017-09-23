@@ -41,10 +41,8 @@ public class Stairs implements DefaultCommand {
         FstPlayer player = new FstPlayer(sender);
         
         player.runIfAirOrStairsHeld(() -> {     
-            Map<String, Integer> argsInt = argsToInteger(
-                new String[] {"ux", "uy", "uz", "height", "width"}, 
-                copyArgs(args, 1)
-            );
+            Map<String, Integer> argsInt = argsToInteger(copyArgs(args, 1),
+                    "ux", "uy", "uz", "height", "width");
 
             int height = argsInt.get("height");
             int width = argsInt.get("width");

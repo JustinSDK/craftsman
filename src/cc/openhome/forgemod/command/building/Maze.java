@@ -196,10 +196,8 @@ public class Maze implements DefaultCommand {
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {      
         FstPlayer player = new FstPlayer(sender);
         
-        Map<String, Integer> argsInt = argsToInteger(
-                new String[] {"ux", "uy", "uz", "rows", "columns", "gridWidth", "wallThickness", "wallHeight"}, 
-                args
-        );
+        Map<String, Integer> argsInt = argsToInteger(args, 
+                "ux", "uy", "uz", "rows", "columns", "gridWidth", "wallThickness", "wallHeight");
         
         int rows = argsInt.get("rows");
         int columns = argsInt.get("columns");

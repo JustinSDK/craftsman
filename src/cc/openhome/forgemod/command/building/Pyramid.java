@@ -44,8 +44,7 @@ public class Pyramid implements DefaultCommand {
         FstPlayer player = new FstPlayer(sender);
         
         player.runIfAirOrBlockHeld(() -> {
-            Map<String, Integer> argsInt = argsToInteger(
-                    new String[] {"ux", "uy", "uz", "width", "height"}, args);
+            Map<String, Integer> argsInt = argsToInteger(args, "ux", "uy", "uz", "width", "height");
             
             buildPyramid(player, 
                 new FstPos(argsInt.get("ux"), argsInt.get("uy"), argsInt.get("uz")), 
