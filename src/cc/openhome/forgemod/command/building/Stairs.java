@@ -7,6 +7,7 @@ import java.util.Map;
 import cc.openhome.forgemod.command.Blocker;
 
 import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstWalker;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
@@ -40,7 +41,9 @@ public class Stairs implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
-        runIfAirOrStairsHeld(sender, () -> {     
+        FstPlayer player = new FstPlayer(sender);
+        
+        player.runIfAirOrStairsHeld(() -> {     
             Map<String, Integer> argsInt = argsToInteger(
                 new String[] {"ux", "uy", "uz", "height", "width"}, 
                 copyArgs(args, 1)
@@ -49,40 +52,32 @@ public class Stairs implements DefaultCommand {
             int height = argsInt.get("height");
             int width = argsInt.get("width");
             
-            EntityPlayer player = (EntityPlayer) sender;
-            BlockPos origin = origin(player, argsInt.get("ux"), argsInt.get("uy"), argsInt.get("uz"));
-            Item heldItem = player.getHeldItemMainhand().getItem();
-            Block heldBlock = Block.getBlockFromItem(heldItem);
+            BlockPos origin = player.origin(argsInt.get("ux"), argsInt.get("uy"), argsInt.get("uz"));
             
             if("up".equals(args[0])) {
                 for(int w = 0; w < width; w++) {
                     BlockPos pos = FstWalker.right(player.getAdjustedHorizontalFacing(), origin, w);
-                    columnUp(player, height, pos, heldBlock);
+                    columnUp(player, height, pos);
                 }
             } else {
                 for(int w = 0; w < width; w++) {
                     BlockPos pos = FstWalker.right(player.getAdjustedHorizontalFacing(), origin, w);
-                    columnDown(player, height, pos, heldBlock);
+                    columnDown(player, height, pos);
                 }
             }
         });
     }
 
 
-    private void columnUp(EntityPlayer player, int height, BlockPos origin, Block heldBlock) {
+    private void columnUp(FstPlayer player, int height, BlockPos origin) {
         for(int h = 0; h < height; h++) {
             BlockPos pos = new FstWalker(player.getAdjustedHorizontalFacing(), origin)
                                   .forward(h).up(h).getBlockPos();
-            IBlockState state = heldBlock.getDefaultState();
-            
-            player.getEntityWorld().setBlockState(
-                    pos, 
-                    state.withRotation(fromFacingForUp(player)) 
-            );
+            player.buildHeldBlock(pos, fromFacingForUp(player));
         }
     }
     
-    private Rotation fromFacingForUp(EntityPlayer player) {
+    private Rotation fromFacingForUp(FstPlayer player) {
         EnumFacing facing = player.getAdjustedHorizontalFacing();
         if(facing == EnumFacing.EAST) {
             return Rotation.CLOCKWISE_90;
@@ -99,20 +94,15 @@ public class Stairs implements DefaultCommand {
     }
 
 
-    private void columnDown(EntityPlayer player, int height, BlockPos origin, Block heldBlock) {
+    private void columnDown(FstPlayer player, int height, BlockPos origin) {
         for(int h = 0; h < height; h++) {
             BlockPos pos = new FstWalker(player.getAdjustedHorizontalFacing(), origin)
                                   .forward(h).up(-h - 1).getBlockPos();
-            IBlockState state = heldBlock.getDefaultState();
-            
-            player.getEntityWorld().setBlockState(
-                    pos, 
-                    state.withRotation(fromFacingForDown(player)) 
-            );
+            player.buildHeldBlock(pos, fromFacingForDown(player));
         }
     }
     
-    private Rotation fromFacingForDown(EntityPlayer player) {
+    private Rotation fromFacingForDown(FstPlayer player) {
         EnumFacing facing = player.getAdjustedHorizontalFacing();
         if(facing == EnumFacing.EAST) {
             return Rotation.COUNTERCLOCKWISE_90;
