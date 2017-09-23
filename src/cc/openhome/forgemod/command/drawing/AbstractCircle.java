@@ -6,6 +6,7 @@ import static cc.openhome.forgemod.command.Commons.*;
 import java.util.Map;
 
 import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstPos;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
@@ -28,13 +29,14 @@ public abstract class AbstractCircle implements DefaultCommand {
 
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {        
-        runIfAirOrBlockHeld(sender, () -> {
+        FstPlayer player = new FstPlayer(sender);
+        
+        player.runIfAirOrBlockHeld(() -> {
             Map<String, Integer> argsInt = argsToInteger(
                     new String[] {"ux", "uy", "uz", "radius"}, 
                     copyArgs(args, 1)
             );
             
-            EntityPlayer player = (EntityPlayer) sender;
             FstPos center = new FstPos(
                     argsInt.get("ux"),
                     argsInt.get("uy"),
@@ -49,6 +51,6 @@ public abstract class AbstractCircle implements DefaultCommand {
         });
     }
     
-    protected abstract void buildVerticalCircle(EntityPlayer player, FstPos center, int radius);
-    protected abstract void buildHorizontalCircle(EntityPlayer player, FstPos center, int radius);
+    protected abstract void buildVerticalCircle(FstPlayer player, FstPos center, int radius);
+    protected abstract void buildHorizontalCircle(FstPlayer player, FstPos center, int radius);
 }

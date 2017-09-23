@@ -2,6 +2,7 @@ package cc.openhome.forgemod.command.drawing;
 
 import static cc.openhome.forgemod.command.Commons.buildHeldBlock;
 
+import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstPos;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -12,7 +13,7 @@ public class FillCircle extends AbstractCircle {
     }
 
     @Override
-    protected void buildVerticalCircle(EntityPlayer player, FstPos center, int radius) {
+    protected void buildVerticalCircle(FstPlayer player, FstPos center, int radius) {
         int x0 = center.ux;
         int y0 = center.uy;
         int z0 = center.uz;
@@ -23,11 +24,11 @@ public class FillCircle extends AbstractCircle {
         int z = 0;
         int y = radius;
         
-        buildHeldBlock(new FstPos(x0, y0 + radius, z0), player);
-        buildHeldBlock(new FstPos(x0, y0 - radius, z0), player);
+        player.buildHeldBlock(new FstPos(x0, y0 + radius, z0));
+        player.buildHeldBlock(new FstPos(x0, y0 - radius, z0));
         
         for(int i = radius; i >= -radius; i--) {
-            buildHeldBlock(new FstPos(x0, y0, z0 + i), player);
+            player.buildHeldBlock(new FstPos(x0, y0, z0 + i));
         }
         
         while(z < y) {
@@ -41,19 +42,19 @@ public class FillCircle extends AbstractCircle {
             f += ddf_z;  
             
             for(int i = z; i >= -z; i--) {
-                buildHeldBlock(new FstPos(x0, y0 + y, z0 + i), player);
-                buildHeldBlock(new FstPos(x0, y0 - y, z0 + i), player);
+                player.buildHeldBlock(new FstPos(x0, y0 + y, z0 + i));
+                player.buildHeldBlock(new FstPos(x0, y0 - y, z0 + i));
             }
             
             for(int i = y; i >= -y; i--) {
-                buildHeldBlock(new FstPos(x0, y0 + z, z0 + i), player);
-                buildHeldBlock(new FstPos(x0, y0 - z, z0 + i), player);
+                player.buildHeldBlock(new FstPos(x0, y0 + z, z0 + i));
+                player.buildHeldBlock(new FstPos(x0, y0 - z, z0 + i));
             }
         }        
     }
 
     @Override
-    protected void buildHorizontalCircle(EntityPlayer player, FstPos center, int radius) {
+    protected void buildHorizontalCircle(FstPlayer player, FstPos center, int radius) {
         int x0 = center.ux;
         int y0 = center.uy;
         int z0 = center.uz;
@@ -65,11 +66,11 @@ public class FillCircle extends AbstractCircle {
         int z = radius;
         
         for(int i = radius; i >= -radius; i--) {
-            buildHeldBlock(new FstPos(x0, y0, z0 + i), player);
+            player.buildHeldBlock(new FstPos(x0, y0, z0 + i));
         }
         
-        buildHeldBlock(new FstPos(x0 + radius, y0, z0), player);
-        buildHeldBlock(new FstPos(x0 - radius, y0, z0), player);
+        player.buildHeldBlock(new FstPos(x0 + radius, y0, z0));
+        player.buildHeldBlock(new FstPos(x0 - radius, y0, z0));
         
         while(x < z) {
             if(f >= 0) {
@@ -82,13 +83,13 @@ public class FillCircle extends AbstractCircle {
             f += ddf_x;
 
             for(int i = z; i >= -z; i--) {
-                buildHeldBlock(new FstPos(x0 + x, y0, z0 + i), player);
-                buildHeldBlock(new FstPos(x0 - x, y0, z0 + i), player);
+                player.buildHeldBlock(new FstPos(x0 + x, y0, z0 + i));
+                player.buildHeldBlock(new FstPos(x0 - x, y0, z0 + i));
             }
             
             for(int i = x; i >= -x; i--) {
-                buildHeldBlock(new FstPos(x0 + z, y0, z0 + i), player);
-                buildHeldBlock(new FstPos(x0 - z, y0, z0 + i), player);
+                player.buildHeldBlock(new FstPos(x0 + z, y0, z0 + i));
+                player.buildHeldBlock(new FstPos(x0 - z, y0, z0 + i));
             }
         }        
     }
