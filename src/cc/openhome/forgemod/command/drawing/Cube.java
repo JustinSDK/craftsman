@@ -8,7 +8,7 @@ import java.util.Map;
 import cc.openhome.forgemod.command.Blocker;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
-import cc.openhome.forgemod.command.Walker;
+import cc.openhome.forgemod.command.FstWalker;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
@@ -56,13 +56,13 @@ public class Cube implements DefaultCommand {
             argsInt.get("uz")
          );
         
-        Walker position = new Walker(
+        FstWalker walker = new FstWalker(
             player.getAdjustedHorizontalFacing(), 
             origin                    
         );
         
         Blocker.cubeWith(
-                position,
+                walker,
                 pos -> buildHeldBlock(pos, player), 
                 argsInt.get("rows"), argsInt.get("columns"), argsInt.get("layers")
             );

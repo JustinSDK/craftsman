@@ -10,7 +10,7 @@ import java.util.Map;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
 import cc.openhome.forgemod.command.FstPos;
-import cc.openhome.forgemod.command.Walker;
+import cc.openhome.forgemod.command.FstWalker;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;

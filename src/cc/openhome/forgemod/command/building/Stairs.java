@@ -7,7 +7,7 @@ import java.util.Map;
 import cc.openhome.forgemod.command.Blocker;
 
 import cc.openhome.forgemod.command.DefaultCommand;
-import cc.openhome.forgemod.command.Walker;
+import cc.openhome.forgemod.command.FstWalker;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
@@ -56,12 +56,12 @@ public class Stairs implements DefaultCommand {
             
             if("up".equals(args[0])) {
                 for(int w = 0; w < width; w++) {
-                    BlockPos pos = Walker.right(player.getAdjustedHorizontalFacing(), origin, w);
+                    BlockPos pos = FstWalker.right(player.getAdjustedHorizontalFacing(), origin, w);
                     columnUp(player, height, pos, heldBlock);
                 }
             } else {
                 for(int w = 0; w < width; w++) {
-                    BlockPos pos = Walker.right(player.getAdjustedHorizontalFacing(), origin, w);
+                    BlockPos pos = FstWalker.right(player.getAdjustedHorizontalFacing(), origin, w);
                     columnDown(player, height, pos, heldBlock);
                 }
             }
@@ -71,7 +71,7 @@ public class Stairs implements DefaultCommand {
 
     private void columnUp(EntityPlayer player, int height, BlockPos origin, Block heldBlock) {
         for(int h = 0; h < height; h++) {
-            BlockPos pos = new Walker(player.getAdjustedHorizontalFacing(), origin)
+            BlockPos pos = new FstWalker(player.getAdjustedHorizontalFacing(), origin)
                                   .forward(h).up(h).getBlockPos();
             IBlockState state = heldBlock.getDefaultState();
             
@@ -101,7 +101,7 @@ public class Stairs implements DefaultCommand {
 
     private void columnDown(EntityPlayer player, int height, BlockPos origin, Block heldBlock) {
         for(int h = 0; h < height; h++) {
-            BlockPos pos = new Walker(player.getAdjustedHorizontalFacing(), origin)
+            BlockPos pos = new FstWalker(player.getAdjustedHorizontalFacing(), origin)
                                   .forward(h).up(-h - 1).getBlockPos();
             IBlockState state = heldBlock.getDefaultState();
             

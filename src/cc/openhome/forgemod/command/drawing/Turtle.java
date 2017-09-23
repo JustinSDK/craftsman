@@ -5,7 +5,7 @@ import static cc.openhome.forgemod.command.Commons.*;
 import java.util.Arrays;
 import java.util.List;
 import cc.openhome.forgemod.command.DefaultCommand;
-import cc.openhome.forgemod.command.Walker;
+import cc.openhome.forgemod.command.FstWalker;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;

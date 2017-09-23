@@ -6,7 +6,7 @@ import java.util.Map;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
-public class Walker {
+public class FstWalker {
     private final EnumFacing facing;
     private final BlockPos pos;
 
@@ -35,23 +35,23 @@ public class Walker {
         rightSteppers.put(EnumFacing.NORTH, new Stepper(1, 0));
     }
 
-    public Walker(EnumFacing facing, BlockPos pos) {
+    public FstWalker(EnumFacing facing, BlockPos pos) {
         this.facing = facing;
         this.pos = pos;
     }
 
-    public Walker forward(int i) {
+    public FstWalker forward(int i) {
         Stepper stepper = frontSteppers.get(facing);
-        return new Walker(facing, pos.add(stepper.x * i, 0, stepper.z * i));
+        return new FstWalker(facing, pos.add(stepper.x * i, 0, stepper.z * i));
     }
 
-    public Walker right(int i) {
+    public FstWalker right(int i) {
         Stepper stepper = rightSteppers.get(facing);
-        return new Walker(facing, pos.add(stepper.x * i, 0, stepper.z * i));
+        return new FstWalker(facing, pos.add(stepper.x * i, 0, stepper.z * i));
     }
 
-    public Walker up(int i) {
-        return new Walker(facing, pos.add(0, i, 0));
+    public FstWalker up(int i) {
+        return new FstWalker(facing, pos.add(0, i, 0));
     }
 
     public BlockPos getBlockPos() {

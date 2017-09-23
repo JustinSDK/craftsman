@@ -33,10 +33,10 @@ public class Commons {
         Item heldItem = player.getHeldItemMainhand().getItem();
         
         if(heldItem.equals(Items.AIR)) {
-            Commons.sendMessageTo(player, "You don't hold a block. The command will do the cleaning.");
+            sendMessageTo(player, "You don't hold a block. The command will do the cleaning.");
             airHeld.run();
         } else if(!(heldItem instanceof ItemBlock)) {
-            Commons.sendMessageTo(player, "Hold a block");
+            sendMessageTo(player, "Hold a block");
         } else {
             blockHeld.run();
         }
@@ -49,9 +49,9 @@ public class Commons {
         Block heldBlock = Block.getBlockFromItem(heldItem);
         
         if(heldItem.equals(Items.AIR)) {
-            Commons.sendMessageTo(player, "You don't hold stairs. The command will do the cleaning.");
+            sendMessageTo(player, "You don't hold stairs. The command will do the cleaning.");
         } else if(!(heldBlock instanceof BlockStairs)) {
-            Commons.sendMessageTo(player, "Hold stairs");
+            sendMessageTo(player, "Hold stairs");
             return;
         }        
         
@@ -59,7 +59,7 @@ public class Commons {
     }    
     
     public static BlockPos origin(EntityPlayer player, int ux, int uy, int uz) {
-        return new Walker(player.getAdjustedHorizontalFacing(), player.getPosition())
+        return new FstWalker(player.getAdjustedHorizontalFacing(), player.getPosition())
                         .forward(1 + ux) 
                         .up(uy)           
                         .right(uz)      
@@ -79,7 +79,7 @@ public class Commons {
     }
     
     public static BlockPos toBlockPos(FstPos pos, EntityPlayer player) {
-        Walker walker = new Walker(player.getAdjustedHorizontalFacing(), player.getPosition());
+        FstWalker walker = new FstWalker(player.getAdjustedHorizontalFacing(), player.getPosition());
         return walker.forward(pos.ux).up(pos.uy).right(pos.uz).getBlockPos();
     }
      
