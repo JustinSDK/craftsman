@@ -1,6 +1,6 @@
 package cc.openhome.forgemod.command.building;
 
-import static cc.openhome.forgemod.command.Commons.*;
+import static cc.openhome.forgemod.command.Args.*;
 import java.util.Arrays;
 
 import java.util.List;
@@ -18,9 +18,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import cc.openhome.forgemod.command.Blocker;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
+import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstPos;
 import cc.openhome.forgemod.command.FstWalker;
 import cc.openhome.forgemod.command.drawing.Cube;
@@ -41,12 +41,12 @@ public class Pyramid implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {             
-        Map<String, Integer> argsInt = argsToInteger(
-                new String[] {"ux", "uy", "uz", "width", "height"}, args);
+        FstPlayer player = new FstPlayer(sender);
         
-        EntityPlayer player = (EntityPlayer) sender;
-
-        runIfAirOrBlockHeld(sender, () -> {
+        player.runIfAirOrBlockHeld(() -> {
+            Map<String, Integer> argsInt = argsToInteger(
+                    new String[] {"ux", "uy", "uz", "width", "height"}, args);
+            
             buildPyramid(player, 
                 new FstPos(argsInt.get("ux"), argsInt.get("uy"), argsInt.get("uz")), 
                 new FstDimension(argsInt.get("width"), argsInt.get("height"))
@@ -54,11 +54,7 @@ public class Pyramid implements DefaultCommand {
         });
     }
 
-    private void buildPyramid(EntityPlayer player, FstPos fstPos, FstDimension fstDimension) {
-        EnumFacing facing = player.getAdjustedHorizontalFacing();
-        BlockPos playerPos = player.getPosition();
-        Item heldItem = player.getHeldItemMainhand().getItem();
-        
+    private void buildPyramid(FstPlayer player, FstPos fstPos, FstDimension fstDimension) {        
         Cube cube = new Cube();
 
         for (int h = 0; h < fstDimension.layers; h++) {

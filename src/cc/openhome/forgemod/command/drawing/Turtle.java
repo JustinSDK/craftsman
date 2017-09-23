@@ -1,6 +1,6 @@
 package cc.openhome.forgemod.command.drawing;
 
-import static cc.openhome.forgemod.command.Commons.*;
+import static cc.openhome.forgemod.command.Args.*;
 
 import java.util.Arrays;
 import java.util.List;

@@ -16,9 +16,9 @@ public interface DefaultCommand extends ICommand {
     int minLengthOfArgs();
     
     @Override
-    default void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
+    default void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length < minLengthOfArgs()) {
-            Commons.sendMessageTo(((EntityPlayer) sender), getUsage(sender));
+            new FstPlayer(sender).info(getUsage(sender));
         } 
         else {
             doCommand(server, sender, args);

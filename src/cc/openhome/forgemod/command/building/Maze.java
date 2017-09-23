@@ -1,6 +1,6 @@
 package cc.openhome.forgemod.command.building;
 
-import static cc.openhome.forgemod.command.Commons.*;
+import static cc.openhome.forgemod.command.Args.*;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +10,7 @@ import java.util.Collections;
 
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
+import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstPos;
 import cc.openhome.forgemod.command.drawing.Cube;
 import net.minecraft.command.CommandException;
@@ -193,6 +194,8 @@ public class Maze implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {      
+        FstPlayer player = new FstPlayer(sender);
+        
         Map<String, Integer> argsInt = argsToInteger(
                 new String[] {"ux", "uy", "uz", "rows", "columns", "gridWidth", "wallThickness", "wallHeight"}, 
                 args
@@ -205,11 +208,11 @@ public class Maze implements DefaultCommand {
         int wallThickness = argsInt.get("wallThickness");
         int wallHeight = argsInt.get("wallHeight");  
         
-        runIfAirOrBlockHeld(sender, 
+        player.runIfAirOrBlockHeld(
             () -> {  // build maze
                 FstDimension mazeDimension = new FstDimension(rows, columns, wallHeight);
                 
-                buildMaze(sender, 
+                buildMaze(player, 
                     new FstPos(argsInt.get("ux"), argsInt.get("uy"), argsInt.get("uz")),
                     mazeDimension,
                     argsInt.get("gridWidth"), argsInt.get("wallThickness")
@@ -222,12 +225,12 @@ public class Maze implements DefaultCommand {
                 };
 
                 Cube cube = new Cube();
-                cube.doCommandWithoutCheckingBlock(sender, cubeArgs);
+                cube.doCommandWithoutCheckingBlock(player, cubeArgs);
             }
         );
     }
     
-    private void buildMaze(ICommandSender sender, 
+    private void buildMaze(FstPlayer player, 
             FstPos origin, 
             FstDimension mazeDimension,
             int gridWidth, int wallThickness) {
@@ -237,11 +240,11 @@ public class Maze implements DefaultCommand {
         
         Cube cube = new Cube();
         
-        buildGrids(sender, cube, gridCreator.grids);
+        buildGrids(player, cube, gridCreator.grids);
         
         // The most left and bottom walls
         cube.doCommandWithoutCheckingBlock(
-            sender, toCubeArgs(origin, 
+            player, toCubeArgs(origin, 
                        new FstDimension(
                               mazeDimension.rows * gridWidth + wallThickness, 
                               wallThickness, 
@@ -250,7 +253,7 @@ public class Maze implements DefaultCommand {
                     )
         );
         cube.doCommandWithoutCheckingBlock(
-            sender, toCubeArgs(new FstPos(origin.ux, origin.uy, origin.uz + gridWidth), 
+            player, toCubeArgs(new FstPos(origin.ux, origin.uy, origin.uz + gridWidth), 
                         new FstDimension(
                               wallThickness, 
                               (mazeDimension.columns - 1) * gridWidth + wallThickness, 
@@ -260,15 +263,15 @@ public class Maze implements DefaultCommand {
         );
     }
     
-    private void buildGrids(ICommandSender sender, Cube cube, Grid[][] grids) {
+    private void buildGrids(FstPlayer player, Cube cube, Grid[][] grids) {
         for(Grid[] rowGrids : grids) {
             for(Grid grid : rowGrids) {
-                buildGrid(sender, cube, grid);
+                buildGrid(player, cube, grid);
             }
         }
     }    
     
-    private void buildGrid(ICommandSender sender, Cube cube, Grid grid) {
+    private void buildGrid(FstPlayer player, Cube cube, Grid grid) {
         int width = grid.width;
         int wallThickness = grid.wallThickness;
         int wallHeight = grid.wallHeight;
@@ -278,20 +281,20 @@ public class Maze implements DefaultCommand {
         int offset = width - wallThickness;
         
         if(wallType == WallType.UP || wallType == WallType.UP_RIGHT) {
-            cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(
+            cube.doCommandWithoutCheckingBlock(player, toCubeArgs(
                     new FstPos(origin.ux + offset, origin.uy, origin.uz), 
                     new FstDimension(wallThickness, width, wallHeight)
                     
                 ));
         }
         if(wallType == WallType.RIGHT || wallType == WallType.UP_RIGHT) {
-            cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(
+            cube.doCommandWithoutCheckingBlock(player, toCubeArgs(
                     new FstPos(origin.ux, origin.uy, origin.uz + offset), 
                     new FstDimension(width, wallThickness, wallHeight)
                 )); 
         }
         if(wallType == WallType.NONE) {
-            cube.doCommandWithoutCheckingBlock(sender, toCubeArgs(
+            cube.doCommandWithoutCheckingBlock(player, toCubeArgs(
                     new FstPos(origin.ux + offset, origin.uy, origin.uz + offset), 
                     new FstDimension(wallThickness, wallThickness, wallHeight)
                 )); 

@@ -1,13 +1,13 @@
 package cc.openhome.forgemod.command.drawing;
 
-import static cc.openhome.forgemod.command.Commons.*;
+import static cc.openhome.forgemod.command.Args.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import cc.openhome.forgemod.command.Blocker;
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
+import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstWalker;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
@@ -36,21 +36,19 @@ public class Cube implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {     
-        runIfAirOrBlockHeld(sender, () -> {
-            doCommandWithoutCheckingBlock(sender, args); 
+        FstPlayer player = new FstPlayer(sender);
+        player.runIfAirOrBlockHeld(() -> {
+            doCommandWithoutCheckingBlock(player, args); 
         });
     }
 
-    public void doCommandWithoutCheckingBlock(ICommandSender sender, String[] args) {
+    public void doCommandWithoutCheckingBlock(FstPlayer player, String[] args) {
         Map<String, Integer> argsInt = argsToInteger(
                 new String[] {"ux", "uy", "uz", "rows", "columns", "layers"}, 
                 args
         );
         
-        EntityPlayer player = (EntityPlayer) sender;
-      
-        BlockPos origin = origin(
-            player, 
+        BlockPos origin = player.origin(
             argsInt.get("ux"), 
             argsInt.get("uy"), 
             argsInt.get("uz")
@@ -61,10 +59,26 @@ public class Cube implements DefaultCommand {
             origin                    
         );
         
-        Blocker.cubeWith(
-                walker,
-                pos -> buildHeldBlock(pos, player), 
-                argsInt.get("rows"), argsInt.get("columns"), argsInt.get("layers")
-            );
+        buildCube(player, walker, argsInt.get("rows"), argsInt.get("columns"), argsInt.get("layers"));
     }
+    
+    private void buildCube(FstPlayer player, FstWalker walker, int rows, int columns, int layers) {
+        for (int layer = 0; layer < layers; layer++) {
+            buildRectangle(player, walker.up(layer), rows, columns);
+        }
+    }
+    
+    private void buildRectangle(FstPlayer player, FstWalker walker, int rows, int columns) {
+        for (int column = 0; column < columns; column++) {
+            buildColumn(player, walker.right(column), rows);
+        }
+    }    
+    
+    private void buildColumn(FstPlayer player, FstWalker walker, int length) {
+        FstWalker walkerVar = walker;
+        for (int i = 0; i < length; i++) {
+            player.buildHeldBlock(walkerVar.getBlockPos());
+            walkerVar = walkerVar.forward(1);
+        }
+    }        
 }

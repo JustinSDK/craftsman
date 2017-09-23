@@ -1,7 +1,5 @@
 package cc.openhome.forgemod.command.drawing;
 
-import static cc.openhome.forgemod.command.Commons.buildHeldBlock;
-
 import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstPos;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,9 +1,7 @@
 package cc.openhome.forgemod.command.drawing;
 
-import static cc.openhome.forgemod.command.Commons.argsToInteger;
-import static cc.openhome.forgemod.command.Commons.buildHeldBlock;
-import static cc.openhome.forgemod.command.Commons.copyArgs;
-import static cc.openhome.forgemod.command.Commons.runIfAirOrBlockHeld;
+import static cc.openhome.forgemod.command.Args.argsToInteger;
+import static cc.openhome.forgemod.command.Args.copyArgs;
 
 import java.util.Map;
 
