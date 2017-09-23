@@ -9,8 +9,10 @@ import java.util.Map;
 
 import cc.openhome.forgemod.command.DefaultCommand;
 import cc.openhome.forgemod.command.FstDimension;
+import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstPos;
 import cc.openhome.forgemod.command.FstWalker;
+import cc.openhome.forgemod.command.LinePts;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -38,28 +40,29 @@ public class Line implements DefaultCommand {
     
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {             
-        runIfAirOrBlockHeld(sender, () -> {
+        FstPlayer player = new FstPlayer(sender);
+        
+        player.runIfAirOrBlockHeld(() -> {
             Map<String, Integer> argsInt = argsToInteger(
                     new String[] {"ux1", "uy1", "uz1", "ux2", "uy2", "uz2"}, 
                     args
             );            
             
-            EntityPlayer player = (EntityPlayer) sender;
 
-            BlockPos start = toBlockPos(new FstPos(
+            BlockPos start = player.toBlockPos(new FstPos(
                     argsInt.get("ux1"),
                     argsInt.get("uy1"),
                     argsInt.get("uz1")
-                ), player);
+                ));
             
-            BlockPos end = toBlockPos(new FstPos(
+            BlockPos end =  player.toBlockPos(new FstPos(
                     argsInt.get("ux2"),
                     argsInt.get("uy2"),
                     argsInt.get("uz2")
-                ), player);      
+                ));      
             
             
-            new LinePts(start, end).getList().forEach(pos -> buildHeldBlock(pos, player));
+            new LinePts(start, end).getList().forEach(pos ->  player.buildHeldBlock(pos));
         });
     }
 }

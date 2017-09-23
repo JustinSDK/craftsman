@@ -1,4 +1,4 @@
-package cc.openhome.forgemod.command.drawing;
+package cc.openhome.forgemod.command;
 
 import java.util.ArrayList;
 import java.util.List;

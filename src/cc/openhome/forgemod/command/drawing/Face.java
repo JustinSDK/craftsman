@@ -14,7 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import cc.openhome.forgemod.command.DefaultCommand;
+import cc.openhome.forgemod.command.FstPlayer;
 import cc.openhome.forgemod.command.FstPos;
+import cc.openhome.forgemod.command.LinePts;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,13 +46,12 @@ public class Face implements DefaultCommand {
 
     @Override
     public void doCommand(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        runIfAirOrBlockHeld(sender, () -> {
- 
-            EntityPlayer player = (EntityPlayer) sender;
-
+        FstPlayer player = new FstPlayer(sender);
+        
+        player.runIfAirOrBlockHeld(() -> {
             if("begin".equals(args[0])) {
                facePosLt = new ArrayList<>();
-               sendMessageTo(player, "Ready, Use 'face add <ux> <uy> <uz>' to add points.");
+               player.info("Ready, Use 'face add <ux> <uy> <uz>' to add points.");
             } 
             else if("add".equals(args[0])) {
                 Map<String, Integer> argsInt = argsToInteger(
@@ -61,8 +62,9 @@ public class Face implements DefaultCommand {
                         argsInt.get("ux"),
                         argsInt.get("uy"),
                         argsInt.get("uz"));
-                facePosLt.add(toBlockPos(facePos, player));
-                buildHeldBlock(facePos, player);
+                facePosLt.add(player.toBlockPos(facePos));
+                
+                player.buildHeldBlock(facePos);
             } else if("end".equals(args[0])) {
                 buildFace(player, false);
             } else if("endFill".equals(args[0])) {
@@ -71,7 +73,7 @@ public class Face implements DefaultCommand {
         });
     }
 
-    private void buildFace(EntityPlayer player, boolean filled) {
+    private void buildFace(FstPlayer player, boolean filled) {
         List<BlockPos> edgesVertices = edgesPts();
         
         if(filled) {
@@ -82,12 +84,12 @@ public class Face implements DefaultCommand {
             BlockPos lastPt = edgesVertices.get(0);
             for(int size = edgesVertices.size(), i = 1; i < size; i++) {
                 BlockPos pt = edgesVertices.get(i);
-                new LinePts(lastPt, pt).getList().forEach(pos -> buildHeldBlock(pos, player));
+                new LinePts(lastPt, pt).getList().forEach(pos -> player.buildHeldBlock(pos));
                 lastPt = pt;
             }
         } 
         else {
-            edgesVertices.forEach(pos -> buildHeldBlock(pos, player));
+            edgesVertices.forEach(pos -> player.buildHeldBlock(pos));
         }
     }
 
