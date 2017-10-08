@@ -16,7 +16,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import scala.actors.threadpool.Arrays;
+import java.util.Arrays;
 
 public class Args {
     public static Map<String, Integer> argsToInteger(String[] args, String... argNames) {
